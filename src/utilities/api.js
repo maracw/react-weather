@@ -13,12 +13,20 @@ const getLocation  = async (zip) => {
         lat: response.data.lat,
         lng: response.data.lon
     }
-    console.log(location);
+    
+    return location;
     
 }
 
-function getWeather () {
-    return <div> Get Weather</div>
+const getWeather = async (lat, lng) => {
+
+    const weatherUrl = 'https://api.openweathermap.org/data/3.0/onecall?lat='+lat+'&lon='+lng+'&';
+    const weatherResponse = axios.get(weatherUrl+apiKey)
+
+   console.log (weatherResponse);
+    //https://api.openweathermap.org/data/3.0/onecall?lat=33.44&lon=-94.04&exclude=hourly,daily&appid={API key}
+    //return <div> Get Weather</div>
+    return weatherResponse;
 }
 
 export {getLocation , getWeather };
