@@ -17,13 +17,17 @@ function ZipForm ({onSubmit}){
         setZip(event.target.value);
     };
     return (
-        <div className="">
-            <form onSubmit={handleFormSubmit}>
-                <label>Enter Zipcode</label>
-                <input 
-                    value={zip}
-                    onChange={handleChange}
-                />
+        <div className="zip-form">
+            <form id="zipForm" onSubmit={handleFormSubmit}>
+                <div className="flex-parent">
+                    <label>Enter Zipcode</label>
+                    <input 
+                    className='form-control'
+                        value={zip}
+                        onChange={handleChange}
+                    />
+                    <button type="submit" className="btn btn-success"> Get the forcast!</button>
+                </div>
             </form>
             <div> You are searching for: {zip}</div>
         </div>
