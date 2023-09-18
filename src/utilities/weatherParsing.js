@@ -56,3 +56,4 @@ export default function parseForecast(forecast, timezoneOffset) {
     }
     return simpleForecast;
   }
+
