@@ -12,6 +12,9 @@ function App () {
     const [forecast, setForecast] = useState([]);
     const [selectedDay, setSelectedDay] = useState(null);
 
+    let localCity = location.name;
+    let forecastDay = null;
+
     const handleSubmit = async (zip) => {
         let localLat =  null;
         let localLng =null;
@@ -37,24 +40,28 @@ function App () {
         try{
             
             const weatherResponse = await getWeather(localLat,localLng);
-            //const simpleWeather =weatherResponse.data.list;
-            //const timeZoneOffset = weatherResponse.data.timeZoneOffset;
-            //const parsedWeather = parseForecast(simpleWeather,timeZoneOffset);
-           
             setForecast(weatherResponse);
             console.log("set forecast");
+            setSelectedDay(null);
+            console.log("cleared selected day");
+
+            //testing
+            let forecastDay=forecast[0];
+            console.log(forecast[0]);
         }
         catch{
             console.log("error at setting forecast");
         };
     } 
-
-    
+//            <CurrentDay localCity ={localCity} forecastDay={forecastDay[0]}/>
+    //<CurrentDay localCity ={localCity} forecast={forecast}/>
     return (
         <div>
             <ZipForm onSubmit = {handleSubmit} />
             <div>City: {location.name}</div>
-           <WeatherList />
+            <WeatherList />
+            <CurrentDay localCity ={localCity} forecast={forecast}/>
+            
         </div>
     );
 }

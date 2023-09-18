@@ -44,12 +44,8 @@ const getWeather = async (lat, lng) => {
 const weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat='+lat+'&lon='+lng+'&';
   try { 
       const weatherResponse = await axios.get(weatherUrl+apiKey);
-      console.log ("sent weather request");
-      //variable to hold promised object
-      
-      const simpleWeather =weatherResponse.data.list;
-      const timeZoneOffset = weatherResponse.data.timeZoneOffset;
-      const parsedWeather = parseForecast(simpleWeather,timeZoneOffset);
+      console.log ("sent weather request");      
+      const parsedWeather = parseForecast(weatherResponse.data.list,weatherResponse.data.timeZoneOffset);
       return parsedWeather;
     }
     catch (error) {
@@ -67,8 +63,6 @@ const weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast?units=imper
         }
         console.log(error.config);
       };
-   
-  
 }
 
 export {getLocation , getWeather };
