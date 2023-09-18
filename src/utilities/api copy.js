@@ -42,15 +42,14 @@ URL from ES^ starting files
 https://api.openweathermap.org/data/2.5/forecast?units=imperial& */ 
 const getWeather = async (lat, lng) => {
 const weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat='+lat+'&lon='+lng+'&';
-  try { 
-      const weatherResponse = await axios.get(weatherUrl+apiKey);
-      console.log ("sent weather request");
-      //variable to hold promised object
-      
-      const simpleWeather =weatherResponse.data.list;
-      const timeZoneOffset = weatherResponse.data.timeZoneOffset;
-      const parsedWeather = parseForecast(simpleWeather,timeZoneOffset);
-      return parsedWeather;
+try {
+  
+        const weatherResponse = await axios.get(weatherUrl+apiKey);
+        console.log ("sent weather request");
+        //variable to hold promised object
+        let simpleWeather = weatherResponse;
+       //returns promise
+        return weatherResponse;
     }
     catch (error) {
         if (error.response) {

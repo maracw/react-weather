@@ -3,7 +3,7 @@ import { getWeather } from "./utilities/api";
 import { useState } from "react";
 import ZipForm from './components/ZipForm';
 import CurrentDay from "./components/CurrentDay";
-import WeatherList from "./components/Weatherlist";
+import WeatherList from "./components/WeatherList";
 import parseForecast from "./utilities/weatherParsing";
 
 function App () {
@@ -35,13 +35,13 @@ function App () {
 
          //within own try block with local lat and lng
         try{
-
+            
             const weatherResponse = await getWeather(localLat,localLng);
-            const simpleWeather =weatherResponse.data.list;
-            const timeZoneOffset = weatherResponse.data.timeZoneOffset;
-            const parsedWeather = parseForecast(simpleWeather,timeZoneOffset);
+            //const simpleWeather =weatherResponse.data.list;
+            //const timeZoneOffset = weatherResponse.data.timeZoneOffset;
+            //const parsedWeather = parseForecast(simpleWeather,timeZoneOffset);
            
-            setForecast(parsedWeather);
+            setForecast(weatherResponse);
             console.log("set forecast");
         }
         catch{
