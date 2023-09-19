@@ -1,0 +1,15 @@
+.zip-form{
+    padding: 1rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.zip-form form div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 15px;
+}

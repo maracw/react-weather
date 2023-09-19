@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import '../styles/ZipForm.css';
 
 function ZipForm ({onSubmit}){
 
@@ -8,8 +9,21 @@ function ZipForm ({onSubmit}){
     //event handler that sends the zip code value back to App.js
     const handleFormSubmit = (event) => {
         event.preventDefault();
+        const pattern = /^\d{5}$/;
+        
+        if (zip=="")
+        {
+            alert("please enter a zip code");
 
-        onSubmit(zip);
+        }else if(pattern.test(zip))
+        {
+            console.log("valid zip entered");
+            onSubmit(zip);
+        }
+        else{
+            alert("invalid zip code entered");
+        }
+       
     };
 
     //event handler to update zipcode as it is typed
@@ -18,18 +32,17 @@ function ZipForm ({onSubmit}){
     };
     return (
         <div className="zip-form">
-            <form id="zipForm" onSubmit={handleFormSubmit}>
-                <div className="flex-parent">
-                    <label>Enter Zipcode</label>
+            <form id="zipForm" className="m-4 d-flex flex-row" onSubmit={handleFormSubmit}>
+                <div className="m-3">
+                    <label className="my-3">Enter a five digit Zipcode:</label>
                     <input 
-                    className='form-control'
+                        className='form-control'
                         value={zip}
                         onChange={handleChange}
                     />
-                    <button type="submit" className="btn btn-success"> Get the forcast!</button>
+                    <button type="submit" className="my-3 btn btn-success"> Get the forcast!</button>
                 </div>
             </form>
-            <div> You are searching for: {zip}</div>
         </div>
     );
 }

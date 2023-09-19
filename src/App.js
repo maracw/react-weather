@@ -5,6 +5,9 @@ import ZipForm from './components/ZipForm';
 import CurrentDay from "./components/CurrentDay";
 import WeatherList from "./components/WeatherList";
 import parseForecast from "./utilities/weatherParsing";
+import Header from "./components/Header";
+import './styles/AppStyles.css';
+
 
 function App () {
 
@@ -19,6 +22,7 @@ function App () {
         let localLat =  null;
         let localLng =null;
         let localForecast = null;
+
         try {
             const locationResponse = await getLocation(zip);
             setLocation( {
@@ -56,31 +60,55 @@ function App () {
 
     //onDayClick testing
     const handleDayClick = (index) =>{
-        console.log("handle day click" + index);
         setSelectedDay(index);
     }
-//            <CurrentDay localCity ={localCity} forecastDay={forecastDay[0]}/>
-    //<CurrentDay localCity ={localCity} forecast={forecast}/>
-    //send whole forecast and selected dat to current day
-    // <CurrentDay location={location} forecast={forecast} selectedDay={selectedDay} />
+
     if (selectedDay!=null){
         const forecastDay = forecast[selectedDay];
+        const date = forecastDay.dt;
         return (
-            <div>
-                <ZipForm onSubmit = {handleSubmit} />
-                <div>City: {location.name}</div>
-                <CurrentDay location={location} forecast={forecastDay} selectedDay={selectedDay} />
+            <div className="">
+                <div>
+                    <Header />
+                </div>
+                <div className="row">
+                    <ZipForm onSubmit = {handleSubmit} />
+                </div>
+                <div className="row">
                 <WeatherList onDayClick={handleDayClick} forecast={forecast}/>            
+                </div>
+                <div className="row">
+                <CurrentDay location={location} forecast={forecastDay} dateProp ={date} selectedDay={selectedDay} />
+                </div>
             </div>);
     }
+    else if (forecast.length>0){
+        return (
+            
+            <div className="row">
+                <div>
+                    <Header />
+                </div>
+                <div className="row">
+                    <ZipForm onSubmit = {handleSubmit} />
+                </div>
+                <div className="row">
+                <WeatherList onDayClick={handleDayClick} forecast={forecast}/>            
+                </div>
+            </div>
+        );
+    }
     else{
-return (
-        <div>
-            <ZipForm onSubmit = {handleSubmit} />
-            <div>City: {location.name}</div>
-            <CurrentDay location={location} forecast={forecast} selectedDay={selectedDay} />
-            <WeatherList onDayClick={handleDayClick} forecast={forecast}/>            
-        </div>
+        return (
+            <div className="row">
+                <div>
+                    <Header />
+                </div>
+                 <div className="row">
+                    <ZipForm onSubmit = {handleSubmit} />
+                </div>
+            </div>
+
     );
     }
     
