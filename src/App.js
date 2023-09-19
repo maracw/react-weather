@@ -53,17 +53,37 @@ function App () {
             console.log("error at setting forecast");
         };
     } 
+
+    //onDayClick testing
+    const handleDayClick = (index) =>{
+        console.log("handle day click" + index);
+        setSelectedDay(index);
+    }
 //            <CurrentDay localCity ={localCity} forecastDay={forecastDay[0]}/>
     //<CurrentDay localCity ={localCity} forecast={forecast}/>
-    return (
+    //send whole forecast and selected dat to current day
+    // <CurrentDay location={location} forecast={forecast} selectedDay={selectedDay} />
+    if (selectedDay!=null){
+        const forecastDay = forecast[selectedDay];
+        return (
+            <div>
+                <ZipForm onSubmit = {handleSubmit} />
+                <div>City: {location.name}</div>
+                <CurrentDay location={location} forecast={forecastDay} selectedDay={selectedDay} />
+                <WeatherList onDayClick={handleDayClick} forecast={forecast}/>            
+            </div>);
+    }
+    else{
+return (
         <div>
             <ZipForm onSubmit = {handleSubmit} />
             <div>City: {location.name}</div>
-            <WeatherList />
-            <CurrentDay localCity ={localCity} forecast={forecast}/>
-            
+            <CurrentDay location={location} forecast={forecast} selectedDay={selectedDay} />
+            <WeatherList onDayClick={handleDayClick} forecast={forecast}/>            
         </div>
     );
+    }
+    
 }
 
 export default App;

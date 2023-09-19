@@ -1,0 +1,9 @@
+.weather-list {
+    columns: 4 200px;
+    column-gap: 20px;
+}
+
+.weather-item {
+    border: 1px solid gray;
+    margin-bottom: 5px;
+}
