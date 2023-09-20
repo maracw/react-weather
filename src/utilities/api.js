@@ -1,8 +1,8 @@
 import axios from 'axios';
 import parseForecast from './weatherParsing';
  
-const apiKey ='appid=3587a1743721943c11ae0a69a66c18ff';
 
+const apiKey=process.env.REACT_APP_WEATHER_KEY;
 const getLocation  = async (zip) => {
     const geoUrl = 'http://api.openweathermap.org/geo/1.0/zip?zip='+zip+',US&';
     try {

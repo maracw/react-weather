@@ -2,10 +2,10 @@
 function Header () {
     return (
     <header>
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <div class="container-fluid">
-                <span class="navbar-text display-2">Weather</span>
-                <span class="navbar-text">Made in React</span>
+        <nav className="navbar navbar-expand-sm bg-dark navbar-dark">
+            <div className="container-fluid">
+                <span className="navbar-text display-2">Weather</span>
+                <span className="navbar-text">Made in React</span>
             </div>
         </nav>
     </header>
