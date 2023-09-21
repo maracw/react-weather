@@ -9,8 +9,10 @@ function ZipForm ({onSubmit}){
     //event handler that sends the zip code value back to App.js
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        const pattern = /^\d{5}$/;
-        
+        onSubmit(zip);
+
+        //const pattern = /^\d{5}$/;
+        /*
         if (zip=="")
         {
             alert("please enter a zip code");
@@ -22,7 +24,8 @@ function ZipForm ({onSubmit}){
         }
         else{
             alert("invalid zip code entered");
-        }
+        }*/
+        
        
     };
 

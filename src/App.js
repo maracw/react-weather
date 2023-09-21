@@ -1,5 +1,4 @@
-import { getLocation } from "./utilities/api";
-import { getWeather } from "./utilities/api";
+import { getLocation, getWeather } from "./utilities/api";
 import { useState } from "react";
 import ZipForm from './components/ZipForm';
 import CurrentDay from "./components/CurrentDay";
@@ -37,7 +36,10 @@ function App () {
         }
         catch
         {
+            
             console.log("problem at calling get location.")
+            //needs to stop here
+            return false;
         };
 
          //within own try block with local lat and lng

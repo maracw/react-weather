@@ -1,11 +1,12 @@
 import axios from 'axios';
 import parseForecast from './weatherParsing';
  
-
+//API Key in .env file
+//
 const apiKey=process.env.REACT_APP_WEATHER_KEY;
 const getLocation  = async (zip) => {
     const geoUrl = 'http://api.openweathermap.org/geo/1.0/zip?zip='+zip+',US&';
-    try {
+    
         const response = await axios.get(geoUrl+apiKey);
 
         console.log(response);
@@ -14,15 +15,19 @@ const getLocation  = async (zip) => {
             lat: response.data.lat,
             lng: response.data.lon
         }
-        
+        //return
         return location;
-    }
-    catch (error) {
+    
+    //needs a return value
+    //not the right place for the cartch
+   /* catch (error) {
         if (error.response) {
           // 5xx or 4xx error
+          console.log("errors incoming");
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
+          return error.request.status;
         } else if (error.request) {
           // request never left
           console.log(error.request);
@@ -31,10 +36,10 @@ const getLocation  = async (zip) => {
           console.log('Error', error.message);
         }
         console.log(error.config);
-      };
+      };*/
 
     
-}
+};
 /*API addresses in openweather documentation and ES6 starting files do not match
 URL that does not work with current version of parseWeather
 'https://api.openweathermap.org/data/3.0/onecall?lat='+lat+'&lon='+lng+'&';
