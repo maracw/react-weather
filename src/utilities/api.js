@@ -1,5 +1,6 @@
 import axios from 'axios';
 import parseForecast from './weatherParsing';
+import OpenWeather from './openWeather';
  
 //API Key in .env file
 //
@@ -51,6 +52,12 @@ const weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast?units=imper
       const weatherResponse = await axios.get(weatherUrl+apiKey);
       console.log ("sent weather request");      
       const parsedWeather = parseForecast(weatherResponse.data.list,weatherResponse.data.timeZoneOffset);
+
+      let openWeather = new OpenWeather();
+      let customCall = openWeather.buildWeatherUrl();
+      console.log("custome call: " +customCall);
+      const customUrlResponse = await axios.get(customCall);
+      console.log(customUrlResponse);
       return parsedWeather;
     }
     catch (error) {

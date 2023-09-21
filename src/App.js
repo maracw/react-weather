@@ -33,6 +33,7 @@ function App () {
             localLng = locationResponse.lng;
             
             console.log('location set');
+            console.log('is forecast zero? '+ forecast.length)
         }
         catch
         {
@@ -65,6 +66,21 @@ function App () {
         setSelectedDay(index);
     }
 
+    if(selectedDay==null){
+        return (
+            <div className="row">
+                <div>
+                    <Header />
+                </div>
+                 <div className="row">
+                    <ZipForm onSubmit = {handleSubmit} />
+                </div>
+            </div>
+
+    );
+
+    }
+    /*
     if (selectedDay!=null){
         const forecastDay = forecast[selectedDay];
         const date = forecastDay.dt;
@@ -112,7 +128,7 @@ function App () {
             </div>
 
     );
-    }
+    }*/
     
 }
 

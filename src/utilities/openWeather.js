@@ -8,20 +8,20 @@ export default class OpenWeather {
         this.apiVersion='2.5';
         //this.path='data/'+ this.apiVersion + '/forecast';
         //this.queryString='';
-        this.apiKey = process.env.REACT_APP_WEATHER_KEY + process.env.API_KEY_ONLY;
+        //this.apiKey = 'appid=' + process.env.REACT_APP_WEATHER_KEY;
+        this.keyOnly = process.env.REACT_APP_WEATHER_KEY.substring(6);
        
         this.queryParameters = {
             units: 'imperial',
-            lat : '',
-            long :'',
-            appid : this.apiKey
-        }
+            lat : '44.0682',
+            lon :'-123.0819',
+            appid : this.keyOnly
+        };
        
 
         this.urlComponents = {
             scheme : 'https://',
-            subdomain :'api/',
-            domain : 'openweathermap.org/',
+            domain : 'api.openweathermap.org/',
             path: 'data/'+ this.apiVersion + '/forecast',
             queryString : '?' + this.buildQueryString()
         }
@@ -43,14 +43,22 @@ export default class OpenWeather {
             queryString+= encodeURIComponent(key) + '='
             + encodeURIComponent(this.queryParameters[key]) + '&';
         }
-       
+        //take off the final '&'
+        queryString = queryString.slice(0, queryString.length-1);
         return queryString;
     }
 
 
     buildWeatherUrl () {
-        const values = Object.values(this.urlComponents);
+        let values = Object.values(this.urlComponents);
+        //let weatherUrl = values.reduce (whole, part) => {
+        let weatherUrl = values.reduce((whole, part) =>{
+            return whole+part;
+        })
         console.log (values);
+        console.log(weatherUrl);
+
+        return weatherUrl;
     }
     
 }
