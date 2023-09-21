@@ -13,5 +13,5 @@ root.render(<App />);
 
 let openWeather;
 window.onload = () => {
-    newWeather = new Weather()
+    openWeather = new OpenWeather()
 };
