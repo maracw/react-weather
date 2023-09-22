@@ -4,6 +4,7 @@ import OpenWeather from './openWeather';
  
 //API Key in .env file
 //
+let openWeather = new OpenWeather();
 const apiKey=process.env.REACT_APP_WEATHER_KEY;
 const getLocation  = async (zip) => {
     const geoUrl = 'http://api.openweathermap.org/geo/1.0/zip?zip='+zip+',US&';
@@ -16,6 +17,8 @@ const getLocation  = async (zip) => {
             lat: response.data.lat,
             lng: response.data.lon
         }
+       
+        openWeather.getLatAndLongByZip(zip);
         //return
         return location;
     
@@ -47,17 +50,12 @@ URL that does not work with current version of parseWeather
 URL from ES^ starting files 
 https://api.openweathermap.org/data/2.5/forecast?units=imperial& */ 
 const getWeather = async (lat, lng) => {
+  openWeather.getWeather(lat,lng);
 const weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat='+lat+'&lon='+lng+'&';
   try { 
       const weatherResponse = await axios.get(weatherUrl+apiKey);
       console.log ("sent weather request");      
       const parsedWeather = parseForecast(weatherResponse.data.list,weatherResponse.data.timeZoneOffset);
-
-      let openWeather = new OpenWeather();
-      let customCall = openWeather.buildWeatherUrl();
-      console.log("custome call: " +customCall);
-      const customUrlResponse = await axios.get(customCall);
-      console.log(customUrlResponse);
       return parsedWeather;
     }
     catch (error) {
