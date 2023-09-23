@@ -14,7 +14,7 @@ function App () {
     const [forecast, setForecast] = useState([]);
     const [selectedDay, setSelectedDay] = useState(null);
 
-    const [data, setData] = useState(null);
+    //const [data, setData] = useState(null);
     const[loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -27,19 +27,34 @@ function App () {
         let localForecast = null;
 
         let openWeather = new OpenWeather();
-        const locationURL = openWeather.buildURL('http://', this.locationPath, 'zip='+ zip + ',US&');
+        const locationURL = openWeather.buildURL('http://', openWeather.locationPath, 'zip='+ zip + ',US&');
 
         const useEffect =  (()=>{
             fetch (locationURL)
                 .then (response =>response.json())
                 .then (dataResponse => {
-                    setData(dataResponse);
+                    //setData(dataResponse);
                     const updatedLocation  = {
                         name : dataResponse.name,
                         lat: dataResponse.lat,
                         lng: dataResponse.lon
                     };
                     setLocation(updatedLocation);
+                    const weatherURL =openWeather.buildURL('https://', 
+                        openWeather.weatherPath, 
+                        openWeather.buildWeatherQueryString(lat, lng));
+                    fetch (weatherURL)
+                        .then (response =>response.json())
+                        .then (weatherData => {
+                            const timeZoneOffset = data.city.timezone;
+                            const parsedForecast = parseForecast(data.list, timeZoneOffset);
+                            console.log("parsed weather");
+                            console.log(parsedForecast);
+                            setForecast(weatherResponse);
+                            console.log("set forecast");
+                            setSelectedDay(null);
+                            console.log("cleared selected day");
+                        })
                 })
                 .catch ((error) => {
                     setError(error);
@@ -51,15 +66,15 @@ function App () {
 
 
 
-        try {
+       /* try {
 
-            /*
+            
             const locationResponse = await openWeather.getLocation(zip);
             console.log('App says location response is : ' + locationResponse);
             //setLocation(locationResponse);
             //localLat = locationResponse.lat;
             //localLng = locationResponse.lng;
-            */
+            
             
 
             //const weatherResponse = await openWeather.getWeather(localLat,localLng);
