@@ -22,18 +22,16 @@ function App () {
     let forecastDay = null;
 
     const handleSubmit = async (zip) => {
-        let localLat =  null;
-        let localLng =null;
-        let localForecast = null;
 
         let openWeather = new OpenWeather();
         const locationURL = openWeather.buildURL('http://', openWeather.locationPath, 'zip='+ zip + ',US&');
-
+        console.log('api call is :' + locationURL);
         const useEffect =  (()=>{
             fetch (locationURL)
                 .then (response =>response.json())
                 .then (dataResponse => {
                     //setData(dataResponse);
+                    console.log(dataResponse);
                     const updatedLocation  = {
                         name : dataResponse.name,
                         lat: dataResponse.lat,
@@ -42,19 +40,18 @@ function App () {
                     setLocation(updatedLocation);
                     const weatherURL =openWeather.buildURL('https://', 
                         openWeather.weatherPath, 
-                        openWeather.buildWeatherQueryString(lat, lng));
-                    fetch (weatherURL)
+                        openWeather.buildWeatherQueryString(location.lat, location.lng));
+                    
+                    /*    fetch (weatherURL)
                         .then (response =>response.json())
                         .then (weatherData => {
-                            const timeZoneOffset = data.city.timezone;
-                            const parsedForecast = parseForecast(data.list, timeZoneOffset);
-                            console.log("parsed weather");
-                            console.log(parsedForecast);
-                            setForecast(weatherResponse);
+                            const timeZoneOffset = weatherData.city.timezone;
+                            const parsedForecast = parseForecast(weatherData.list, timeZoneOffset);
+                            setForecast(parseForecast);
                             console.log("set forecast");
                             setSelectedDay(null);
                             console.log("cleared selected day");
-                        })
+                        })*/
                 })
                 .catch ((error) => {
                     setError(error);
