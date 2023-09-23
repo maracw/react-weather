@@ -16,7 +16,10 @@ const getLocation  = async (zip) => {
             lng: response.data.lon
         }
        
-        await openWeather.getLatAndLongByZip(zip);
+        //await openWeather.getLatAndLongByZip(zip);
+        //replacing with getLocation in openWeather that uses fetch
+        await openWeather.getLocation(zip);
+        
         //return
         return location;
     

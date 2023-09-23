@@ -20,8 +20,36 @@ export default class OpenWeather {
         };
         //used to hold returned value for name from location call
         this.locationName='';
+
+        this.locationData ={
+            lat: '',
+            lng: '',
+            cityName: ''
+        };
     }
-       
+    
+    async getLocation (zip) {
+        let locationURL = this.buildURL('http://', this.locationPath, 'zip='+ zip + ',US&');
+        fetch (locationURL)
+            .then (response =>response.json())
+            .then (data => {
+                const updatedLocationData = {
+                    ...this.locationData,
+                    lat: data.lat, 
+                    lng: data.lon, 
+                    cityName: data.name
+                }
+                this.locationData = updatedLocationData;
+                console.log("location data is: " +this.locationData.lat +' lat '
+                + this.locationData.lng+ ' lng ' 
+                + this.locationData.cityName+ ' name');
+            })//end of first fetch
+            .catch (error => {
+                alert('There was a problem getting weather info!');
+                 
+            });//end of catch for first fetch
+
+    }
     //works with axios
     async getLatAndLongByZip (zip) {
         let locationURL = this.buildURL('http://', this.locationPath, 'zip='+ zip + ',US&');
