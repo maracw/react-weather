@@ -1,4 +1,5 @@
-import { getLocation, getWeather } from "./utilities/api";
+//import { getLocation, getWeather } from "./utilities/api";
+import OpenWeather from './utilities/openWeather';
 import { useState } from "react";
 import ZipForm from './components/ZipForm';
 import CurrentDay from "./components/CurrentDay";
@@ -22,23 +23,22 @@ function App () {
         let localLng =null;
         let localForecast = null;
 
+        let openWeather = new OpenWeather();
+
         try {
-            const locationResponse = await getLocation(zip);
-            setLocation( {
-                name: locationResponse.name,
-                lat: locationResponse.lat,
-                lng: locationResponse.lng
-                });
-            localLat = locationResponse.lat;
-            localLng = locationResponse.lng;
+            const locationResponse = await openWeather.getLocation(zip);
+            console.log('App says location response is : ' + locationResponse);
+            //setLocation(locationResponse);
+            //localLat = locationResponse.lat;
+            //localLng = locationResponse.lng;
             
             console.log('location set');
-            console.log('is forecast zero? '+ forecast.length)
+
         }
         catch
         {
             
-            console.log("problem at calling get location.")
+            console.log(" App says : problem at calling get location.")
             //needs to stop here
             return false;
         };
@@ -46,7 +46,7 @@ function App () {
          //within own try block with local lat and lng
         try{
             
-            const weatherResponse = await getWeather(localLat,localLng);
+            const weatherResponse = await openWeather.getWeather(localLat,localLng);
             setForecast(weatherResponse);
             console.log("set forecast");
             setSelectedDay(null);
@@ -57,7 +57,7 @@ function App () {
             console.log(forecast[0]);
         }
         catch{
-            console.log("error at setting forecast");
+            console.log("App says: error at setting forecast");
         };
     } 
 
@@ -80,7 +80,7 @@ function App () {
     );
 
     }
-    /*
+    
     if (selectedDay!=null){
         const forecastDay = forecast[selectedDay];
         const date = forecastDay.dt;
@@ -128,7 +128,7 @@ function App () {
             </div>
 
     );
-    }*/
+    }
     
 }
 

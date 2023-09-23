@@ -23,9 +23,9 @@ export default class OpenWeather {
         this.locationName='';
 
         this.locationData ={
+            name: '',
             lat: '',
-            lng: '',
-            cityName: ''
+            lng: ''
         };
     }
     
@@ -34,19 +34,11 @@ export default class OpenWeather {
         fetch (locationURL)
             .then (response =>response.json())
             .then (data => {
-                const updatedLocationData = {
-                    ...this.locationData,
-                    lat: data.lat, 
-                    lng: data.lon, 
-                    cityName: data.name
-                }
-                this.locationData = updatedLocationData;
-                console.log("location data is: " +this.locationData.lat +' lat '
-                + this.locationData.lng+ ' lng ' 
-                + this.locationData.cityName+ ' name');
+                console.log(data);
+                return data;
             })//end of first fetch
             .catch (error => {
-                alert('There was a problem getting location info!');
+                alert('open weather says : There was a problem getting location info!');
                  
             });//end of catch for first fetch
 
