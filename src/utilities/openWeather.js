@@ -34,8 +34,13 @@ export default class OpenWeather {
         fetch (locationURL)
             .then (response =>response.json())
             .then (data => {
-                console.log(data);
-                return data;
+                const updatedLocationData  = {
+                    name : data.name,
+                    lat: data.lat,
+                    lng: data.lon
+                }
+                this.locationData = updatedLocationData;
+                this.getWeather(updatedLocationData.lat, updatedLocationData.lng)
             })//end of first fetch
             .catch (error => {
                 alert('open weather says : There was a problem getting location info!');

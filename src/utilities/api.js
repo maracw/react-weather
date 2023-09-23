@@ -6,6 +6,11 @@ import OpenWeather from './openWeather';
 //
 let openWeather = new OpenWeather();
 const apiKey=process.env.REACT_APP_WEATHER_KEY;
+
+const callOpenWeather = async (zip) =>{
+    const weather = openWeather.getLocation(zip);
+}
+
 const getLocation  = async (zip) => {
     const geoUrl = 'http://api.openweathermap.org/geo/1.0/zip?zip='+zip+',US&';
     
@@ -80,4 +85,4 @@ const getWeather = async (lat, lng) => {
       };
 }
 
-export {getLocation , getWeather };
+export {getLocation , getWeather, callOpenWeather };
