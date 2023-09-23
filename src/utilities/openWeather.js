@@ -1,4 +1,5 @@
 import axios from "axios";
+import parseForecast from './weatherParsing';
 
 export default class OpenWeather {
     constructor () {
@@ -45,12 +46,12 @@ export default class OpenWeather {
                 + this.locationData.cityName+ ' name');
             })//end of first fetch
             .catch (error => {
-                alert('There was a problem getting weather info!');
+                alert('There was a problem getting location info!');
                  
             });//end of catch for first fetch
 
     }
-    //works with axios
+    //axios version
     async getLatAndLongByZip (zip) {
         let locationURL = this.buildURL('http://', this.locationPath, 'zip='+ zip + ',US&');
         const response = await axios.get(locationURL);
@@ -58,10 +59,28 @@ export default class OpenWeather {
         console.log(this.locationName);
     }
 
-    async getWeather(lat, lng) {
+    async getWeatherAxios(lat, lng) {
         let weatherURL = this.buildURL('https://', this.weatherPath, this.buildWeatherQueryString(lat, lng));
         const response = await axios.get(weatherURL);
         console.log(response);
+    }
+
+    async getWeather (lat, lng) {
+        let weatherURL = this.buildURL('https://', this.weatherPath, this.buildWeatherQueryString(lat, lng));
+        fetch (weatherURL)
+            .then (response => response.json())
+            .then (data =>{
+                const timeZoneOffset = data.city.timezone;
+                console.log("data from fetch call");
+                console.log(data);
+                const parsedForecast = parseForecast(data.list, timeZoneOffset);
+                console.log("parsed weather");
+                console.log(parsedForecast);
+                return parseForecast;
+            })//end of weather URL fetch
+            .catch (error =>{
+                alert('There was a problem getting weather info!');
+            });//end of catch for weatherURL fetch
     }
     //a generic way
     buildURL = (scheme, path, queryString) => {

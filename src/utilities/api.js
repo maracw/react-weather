@@ -51,13 +51,17 @@ URL that does not work with current version of parseWeather
 URL from ES^ starting files 
 https://api.openweathermap.org/data/2.5/forecast?units=imperial& */ 
 const getWeather = async (lat, lng) => {
-  openWeather.getWeather(lat,lng);
-const weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat='+lat+'&lon='+lng+'&';
+  //openWeather.getWeather(lat,lng);
+//const weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat='+lat+'&lon='+lng+'&';
   try { 
+    /*
       const weatherResponse = await axios.get(weatherUrl+apiKey);
       console.log ("sent weather request");      
       const parsedWeather = parseForecast(weatherResponse.data.list,weatherResponse.data.timeZoneOffset);
-      return parsedWeather;
+      return parsedWeather;*/
+
+      const weather = await openWeather.getWeather(lat, lng);
+      return weather;
     }
     catch (error) {
         if (error.response) {
