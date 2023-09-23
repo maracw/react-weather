@@ -40,7 +40,7 @@ export default class OpenWeather {
         return scheme + this.domain + path + queryString + this.apiKeyString;
     }
 
-       //takes a js object with key value pairs, iterates over it
+    //takes a js object with key value pairs, iterates over it
     //could be made to be more generic by passing in an object instead of lat and lng
     buildWeatherQueryString (lat, lng) {;
         this.weatherQueryData.lat = lat;
