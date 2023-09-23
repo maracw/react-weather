@@ -23,10 +23,12 @@ function App () {
 
     const handleSubmit = async (zip) => {
 
-        let openWeather = new OpenWeather();
-        const locationURL = openWeather.buildURL('http://', openWeather.locationPath, 'zip='+ zip + ',US&');
-        console.log('api call is :' + locationURL);
-        const useEffect =  (()=>{
+        console.log("using custom hook useFetch to get zip response");
+        const locationResponse = await useOpenWeather(zip);
+        console.log('App says location response is : ' + locationResponse);
+                
+                    /* 
+                     const useEffect =  (()=>{
             fetch (locationURL)
                 .then (response =>response.json())
                 .then (dataResponse => {
@@ -41,8 +43,7 @@ function App () {
                     const weatherURL =openWeather.buildURL('https://', 
                         openWeather.weatherPath, 
                         openWeather.buildWeatherQueryString(location.lat, location.lng));
-                    
-                    /*    fetch (weatherURL)
+              fetch (weatherURL)
                         .then (response =>response.json())
                         .then (weatherData => {
                             const timeZoneOffset = weatherData.city.timezone;
@@ -51,7 +52,7 @@ function App () {
                             console.log("set forecast");
                             setSelectedDay(null);
                             console.log("cleared selected day");
-                        })*/
+                        })
                 })
                 .catch ((error) => {
                     setError(error);
@@ -59,7 +60,7 @@ function App () {
                 .finally (()=>{
                     setLoading(false);
                 });
-        },[]);
+        },[]);*/
 
 
 
