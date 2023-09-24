@@ -1,8 +1,8 @@
-import { getLocation, getWeather,callOpenWeather } from "./utilities/api";
-import OpenWeather from './utilities/openWeather';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import OpenWeather from '../utilities/openWeather';
 
-function useOpenWeather(zip) {
+
+function useOpenWeather(url) {
     const [response, setResponse] = useState(null);
     const [loading, setLoading] = useState(false);
     const [hasError, setHasError] = useState(false);
@@ -12,9 +12,7 @@ function useOpenWeather(zip) {
 
     useEffect(() => {
         setLoading(true);
-        const locationURL = openWeather.buildURL('http://', openWeather.locationPath, 'zip='+ zip + ',US&');
-        console.log('useOpenWeather says api call is :' + locationURL);
-        fetch(locationURL, opts)
+            fetch(url)
             .then((response) => {
             setResponse(response.data)
             setLoading(false)
@@ -26,3 +24,5 @@ function useOpenWeather(zip) {
     }, [ url ])
     return response;
 }
+
+export default useOpenWeather;

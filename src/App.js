@@ -1,5 +1,5 @@
-import { getLocation, getWeather,callOpenWeather } from "./utilities/api";
-import OpenWeather from './utilities/openWeather';
+import { getLocation, getWeather } from "./utilities/api";
+import OpenWeatherHelper from "./components/OpenWeatherHelper";
 import { useState } from "react";
 import ZipForm from './components/ZipForm';
 import CurrentDay from "./components/CurrentDay";
@@ -23,44 +23,10 @@ function App () {
 
     const handleSubmit = async (zip) => {
 
-        console.log("using custom hook useFetch to get zip response");
-        const locationResponse = await useOpenWeather(zip);
-        console.log('App says location response is : ' + locationResponse);
-                
-                    /* 
-                     const useEffect =  (()=>{
-            fetch (locationURL)
-                .then (response =>response.json())
-                .then (dataResponse => {
-                    //setData(dataResponse);
-                    console.log(dataResponse);
-                    const updatedLocation  = {
-                        name : dataResponse.name,
-                        lat: dataResponse.lat,
-                        lng: dataResponse.lon
-                    };
-                    setLocation(updatedLocation);
-                    const weatherURL =openWeather.buildURL('https://', 
-                        openWeather.weatherPath, 
-                        openWeather.buildWeatherQueryString(location.lat, location.lng));
-              fetch (weatherURL)
-                        .then (response =>response.json())
-                        .then (weatherData => {
-                            const timeZoneOffset = weatherData.city.timezone;
-                            const parsedForecast = parseForecast(weatherData.list, timeZoneOffset);
-                            setForecast(parseForecast);
-                            console.log("set forecast");
-                            setSelectedDay(null);
-                            console.log("cleared selected day");
-                        })
-                })
-                .catch ((error) => {
-                    setError(error);
-                })
-                .finally (()=>{
-                    setLoading(false);
-                });
-        },[]);*/
+        console.log("App says using custom hook to get zip response");
+        let openWeatherHelperResponse = new OpenWeatherHelper(zip);
+
+        console.log(openWeatherHelperResponse);
 
 
 

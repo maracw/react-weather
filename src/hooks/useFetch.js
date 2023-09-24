@@ -18,3 +18,5 @@ function useFetch(url, opts) {
     }, [ url ])
     return [ response, loading, hasError ]
 }
+
+export default useFetch;
