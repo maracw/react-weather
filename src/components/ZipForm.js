@@ -9,24 +9,19 @@ function ZipForm ({onSubmit}){
     //event handler that sends the zip code value back to App.js
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        onSubmit(zip);
+        let messageText ="";
+        const pattern5DigitZip = /^\d{5}$/;
 
-        //const pattern = /^\d{5}$/;
-        /*
-        if (zip=="")
-        {
-            alert("please enter a zip code");
-
-        }else if(pattern.test(zip))
-        {
-            console.log("valid zip entered");
+        //if zip is valid call onSubmit
+        //if zip is not valid create element on screen (not a react component)
+        if(pattern5DigitZip.test(zip)){
             onSubmit(zip);
         }
-        else{
-            alert("invalid zip code entered");
-        }*/
-        
-       
+        else
+        {
+            //create div with message
+            messageText = "Please enter a 5 digit US zip code to continue.";
+        }   
     };
 
     //event handler to update zipcode as it is typed
@@ -46,6 +41,7 @@ function ZipForm ({onSubmit}){
                     <button type="submit" className="my-3 btn btn-success"> Get the forcast!</button>
                 </div>
             </form>
+            <div id="error-msg"></div>
         </div>
     );
 }
