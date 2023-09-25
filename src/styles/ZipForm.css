@@ -1,7 +1,9 @@
 .zip-form{
     padding: 1rem 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    margin:0 1rem;
 }
 
 .zip-form form div {
@@ -12,4 +14,13 @@
     background-color: #fff;
     padding: 2rem;
     border-radius: 15px;
+}
+.error-msg{
+    padding: 1.25rem;
+    margin: auto;
+}
+
+.error-msg-red{
+    background-color: rgb(231, 183, 183);
+    
 }
