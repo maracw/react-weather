@@ -7,11 +7,14 @@ function WeatherList ({onDayClick, forecast}) {
 
     const renderedWeatherItems = forecast.map ((item) => {
         return <WeatherListItem key = {item.dt} forecastDay={item} index = {forecast.indexOf(item)} onDayClick={onDayClick} />
-    })
+    });
     
     //return the rendered components in single div
-    return (
+   return (
+    <div className="weather-list">
+        <h2>4 Day Forecast</h2>
         <div className="weather-list">{renderedWeatherItems}</div>
+    </div>
     );
 
 }

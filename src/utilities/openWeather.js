@@ -25,7 +25,7 @@ export default class OpenWeather {
         this.locationData ={
             name: '',
             lat: '',
-            lng: ''
+            lon: ''
         };
     }
     
@@ -44,17 +44,26 @@ export default class OpenWeather {
 
     }
     //axios version
-    async getLatAndLongByZip (zip) {
+    async getLocationAxios(zip) {
+        // let localLat =  null;
+        // let localLon = null;
         let locationURL = this.buildURL('http://', this.locationPath, 'zip='+ zip + ',US&');
         const response = await axios.get(locationURL);
-        this.locationName = response.data.name;
-        console.log(this.locationName);
+        this.locationData = response.data;
+        
+        const weatherResponse = await this.getWeatherAxios(this.locationData.lat, this.locationData.lon);
+        return weatherResponse;
     }
 
     async getWeatherAxios(lat, lng) {
         let weatherURL = this.buildURL('https://', this.weatherPath, this.buildWeatherQueryString(lat, lng));
         const response = await axios.get(weatherURL);
         console.log(response);
+        const timeZoneOffset = response.data.city.timezone;
+        const parsedForecast = parseForecast(response.data.list, timeZoneOffset);
+        console.log("parsed weather");
+        console.log(parsedForecast);
+        return parsedForecast;
     }
 
     async getWeather (lat, lng) {

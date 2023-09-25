@@ -11,54 +11,37 @@ import './styles/AppStyles.css';
 
 function App () {
 
-    const [location, setLocation] = useState([ { name: '', lat: '', lng:'' }]);
+    const [location, setLocation] = useState([ { name: '', lat: '', lon:'' }]);
     const [forecast, setForecast] = useState([]);
     const [selectedDay, setSelectedDay] = useState(null);
 
-    let localCity = location.name;
+    //let localCity = location.name;
     let forecastDay = null;
 
     const handleSubmit = async (zip) => {
         let localLat =  null;
-        let localLng =null;
+        let localLon = null;
         let localForecast = null;
 
         let openWeather = new OpenWeather();
 
         try {
-            const locationResponse = await openWeather.getLocation(zip);
-            console.log('App says location response is : ' + locationResponse);
-            //setLocation(locationResponse);
-            //localLat = locationResponse.lat;
-            //localLng = locationResponse.lng;
-            
-            console.log('location set');
+            const forecastResponse = await openWeather.getLocationAxios(zip);
+            setForecast(forecastResponse);
+            console.log("set forecast");
+            setSelectedDay(null);
+            console.log("cleared selected day");
 
         }
         catch
-        {
-            
+        {  
             console.log(" App says : problem at calling get location.")
             //needs to stop here
             return false;
         };
 
-         //within own try block with local lat and lng
-        try{
-            
-            const weatherResponse = await openWeather.getWeather(localLat,localLng);
-            setForecast(weatherResponse);
-            console.log("set forecast");
-            setSelectedDay(null);
-            console.log("cleared selected day");
-
-            //testing
-            let forecastDay=forecast[0];
-            console.log(forecast[0]);
-        }
-        catch{
-            console.log("App says: error at setting forecast");
-        };
+         
+  
     } 
 
     //onDayClick testing
@@ -76,12 +59,9 @@ function App () {
                     <ZipForm onSubmit = {handleSubmit} />
                 </div>
             </div>
-
-    );
-
+            );
     }
-    
-    if (selectedDay!=null){
+    else if (selectedDay!=null){
         const forecastDay = forecast[selectedDay];
         const date = forecastDay.dt;
         return (
@@ -100,7 +80,7 @@ function App () {
                 </div>
             </div>);
     }
-    else if (forecast.length>0){
+    else {
         return (
             
             <div className="row">
