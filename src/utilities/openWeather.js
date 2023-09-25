@@ -19,8 +19,6 @@ export default class OpenWeather {
             lat : '',
             lon :''
         };
-        //used to hold returned value for name from location call
-        this.locationName='';
 
         this.locationData ={
             name: '',
@@ -29,7 +27,31 @@ export default class OpenWeather {
         };
     }
     
-    async getLocation (zip) {
+    //axios version
+    async getLocationAxios(zip) {
+        // let localLat =  null;
+        // let localLon = null;
+        let locationURL = this.buildURL('http://', this.locationPath, 'zip='+ zip + ',US&');
+        const response = await axios.get(locationURL);
+        this.locationData = response.data;
+        
+        const weatherResponse = await this.getWeatherAxios(this.locationData.lat, this.locationData.lon);
+        const locationAndWeather = [this.locationData, weatherResponse];
+        return locationAndWeather;
+    }
+
+    async getWeatherAxios(lat, lng) {
+        let weatherURL = this.buildURL('http://', this.weatherPath, this.buildWeatherQueryString(lat, lng));
+        const response = await axios.get(weatherURL);
+        console.log(response);
+        const timeZoneOffset = response.data.city.timezone;
+        const parsedForecast = parseForecast(response.data.list, timeZoneOffset);
+        console.log("parsed weather");
+        console.log(parsedForecast);
+        return parsedForecast;
+    }
+
+    async getLocationWithFetch (zip) {
         let locationURL = this.buildURL('http://', this.locationPath, 'zip='+ zip + ',US&');
         fetch (locationURL)
             .then (response =>response.json())
@@ -43,30 +65,8 @@ export default class OpenWeather {
             });//end of catch for first fetch
 
     }
-    //axios version
-    async getLocationAxios(zip) {
-        // let localLat =  null;
-        // let localLon = null;
-        let locationURL = this.buildURL('http://', this.locationPath, 'zip='+ zip + ',US&');
-        const response = await axios.get(locationURL);
-        this.locationData = response.data;
-        
-        const weatherResponse = await this.getWeatherAxios(this.locationData.lat, this.locationData.lon);
-        return weatherResponse;
-    }
 
-    async getWeatherAxios(lat, lng) {
-        let weatherURL = this.buildURL('https://', this.weatherPath, this.buildWeatherQueryString(lat, lng));
-        const response = await axios.get(weatherURL);
-        console.log(response);
-        const timeZoneOffset = response.data.city.timezone;
-        const parsedForecast = parseForecast(response.data.list, timeZoneOffset);
-        console.log("parsed weather");
-        console.log(parsedForecast);
-        return parsedForecast;
-    }
-
-    async getWeather (lat, lng) {
+    async getWeatherWithFetch (lat, lng) {
         let weatherURL = this.buildURL('https://', this.weatherPath, this.buildWeatherQueryString(lat, lng));
         fetch (weatherURL)
             .then (response => response.json())

@@ -3,17 +3,16 @@ import '../styles/ZipForm.css';
 
 function ZipForm ({onSubmit}){
 
-    //declare piece of state
     const [zip, setZip] = useState('');
     
-
     //event handler that sends the zip code value back to App.js
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        
-        const errorMsgDiv = document.getElementById("error-msg");
+
+        const errorMsgDiv = document.getElementById("openWeather-error");
         errorMsgDiv.innerHTML='';
         errorMsgDiv.classList.remove("error-msg-red");
+
         const pattern5DigitZip = /^\d{5}$/;
 
         //if zip is valid call onSubmit
@@ -35,7 +34,7 @@ function ZipForm ({onSubmit}){
         setZip(event.target.value);
     };
     return (
-        <div className="zip-form">
+        <div className="zip-form col-md-6">
             <form id="zipForm" className="d-flex flex-row" onSubmit={handleFormSubmit}>
                 <div className="m-3">
                     <label className="my-3">Enter a five digit Zipcode:</label>
@@ -44,10 +43,9 @@ function ZipForm ({onSubmit}){
                         value={zip}
                         onChange={handleChange}
                     />
-                    <button type="submit" className="my-3 btn btn-success"> Get the forcast!</button>
+                    <button type="submit" className="my-3 btn btn-success"> Get the forecast!</button>
                 </div>
             </form>
-            <div id="error-msg" className="error-msg"></div>
         </div>
     );
 }

@@ -15,10 +15,9 @@
     padding: 2rem;
     border-radius: 15px;
 }
-
 .error-msg{
     padding: 1.25rem;
-    margin: 0 1rem;
+    margin: auto;
 }
 
 .error-msg-red{
