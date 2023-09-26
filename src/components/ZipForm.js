@@ -1,6 +1,6 @@
 import {useState} from 'react';
-function ZipForm ({onSubmit}){
 
+function ZipForm ({onSubmit}){
     const [zip, setZip] = useState('');
     const errorMsgDiv = document.getElementById("openWeather-error");
 
@@ -23,17 +23,15 @@ function ZipForm ({onSubmit}){
             errorMsgDiv.appendChild(messageText);
         }   
     };
-        
-       
-    
 
     //event handler to update zipcode as it is typed
     const handleChange = (event) => {
         setZip(event.target.value);
     };
+    
     return (
-        <div className="zip-form">
-            <form id="zipForm" className="m-4 d-flex flex-row" onSubmit={handleFormSubmit}>
+        <div className="zip-form col-md-6">
+            <form id="zipForm" className="d-flex flex-row" onSubmit={handleFormSubmit}>
                 <div className="m-3">
                     <label className="my-3">Enter a five digit Zipcode:</label>
                     <input 
@@ -41,7 +39,7 @@ function ZipForm ({onSubmit}){
                         value={zip}
                         onChange={handleChange}
                     />
-                    <button type="submit" className="my-3 btn btn-success"> Get the forcast!</button>
+                    <button type="submit" className="my-3 btn btn-success"> Get the forecast!</button>
                 </div>
             </form>
         </div>

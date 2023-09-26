@@ -1,4 +1,5 @@
 import axios from "axios";
+import parseForecast from './weatherParsing';
 
 export default class OpenWeather {
     constructor () {
@@ -27,25 +28,33 @@ export default class OpenWeather {
     }
        
     //works with axios
-    async getLatAndLongByZip (zip) {
-        let locationURL = this.buildURL('http://', this.locationPath, 'zip='+ zip + ',US&');
-        const response = await axios.get(locationURL);
-    }
+   
     //axios version
     async getWeatherByZipAxios(zip) {
 
     let locationURL = this.buildURL('http://', this.locationPath, 'zip='+ zip + ',US&');
     const response = await axios.get(locationURL);
     this.locationData = response.data;
-    const weatherResponse = await this.getWeatherAxios(this.locationData.lat, this.locationData.lon);
-    const locationAndWeather = [this.locationData, weatherResponse];
-    return locationAndWeather;
+    const weather = await this.getWeatherAxios(response.data.lat, response.data.lon);
+    return [this.locationData, weather];
     }
 
-    async getWeather(lat, lng) {
+    async getWeatherAxios1(lat, lon) {
+        let weatherURL = this.buildURL('https://', this.weatherPath, this.buildWeatherQueryString(lat, lon));
+        const response = await axios.get(weatherURL);
+        const weather = parseForecast(response.data.list, response.city.timezone);
+        return weather;
+    }
+
+    async getWeatherAxios(lat, lng) {
         let weatherURL = this.buildURL('https://', this.weatherPath, this.buildWeatherQueryString(lat, lng));
         const response = await axios.get(weatherURL);
         console.log(response);
+        const timeZoneOffset = response.data.city.timezone;
+        const parsedForecast = parseForecast(response.data.list, timeZoneOffset);
+        console.log("parsed weather");
+        console.log(parsedForecast);
+        return parsedForecast;
     }
     //a generic way
     buildURL = (scheme, path, queryString) => {

@@ -1,31 +1,16 @@
 import {getWeekday} from '../utilities/dates';
 
-function CurrentDay ({location, forecast, dateProp, selectedDay}) {
-
-
-    console.log (forecast.dt);
-    const city = location.name;
-    const day = forecast;
-
-    const date = day.dt;
-    //had trouble using imported function with date object in CHROME
-    //browser issue - works in firefox
-    //redid the contents of the function as separate lines of code to get same effect
-    //const weekday = date.getDay();
-    //const dayNames = ['Sunday','Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    //const dayName = dayNames[weekday];
-    //original code
-    const weekday = getWeekday(date); 
-
-    const pic = 'http://openweathermap.org/img/w/'+ day.icon + '.png';
+function CurrentDay ({location, forecast, selectedDay}) {
+    const day = forecast[selectedDay];
+    const picSRC = 'http://openweathermap.org/img/w/'+ day.icon + '.png';
 
     if (selectedDay!=null){
         return (
-        <div className="current-day-container mb-5">
+        <div className="current-day-container mb-5 col-md-5">
             <div className="current-day">
                 <header>
-                    <h2 className='h2'> {weekday} in {city}</h2>
-                    <img src={pic} alt={day.description}/>
+                    <h2 className='h2'> {getWeekday(day.dt)} in {location.name}</h2>
+                    <img src={picSRC} alt={day.description}/>
                     <p className="h4"> {day.description} </p>
                 </header>
               
@@ -45,10 +30,8 @@ function CurrentDay ({location, forecast, dateProp, selectedDay}) {
                 </div>
             </div>);
     }
-    else {
-        return <div>No day yet</div>
-    }
-   
+    else 
+        return <div></div>
 }
 
 export default CurrentDay;

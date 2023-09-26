@@ -6,29 +6,26 @@ import Header from "./components/Header";
 import OpenWeather from "./utilities/openWeather";
 import './styles/AppStyles.css';
 
-
 function App () {
 
-    const [location, setLocation] = useState([ { name: '', lat: '', lng:'' }]);
+    const [location, setLocation] = useState([ { name: '', lat: '', lon:'' }]);
     const [forecast, setForecast] = useState([]);
     const [selectedDay, setSelectedDay] = useState(null);
 
-    const errorMsgDiv = document.getElementById("openWeather-error");
     let openWeather = new OpenWeather();
 
     const handleSubmit = async (zip) => {
+        const errorMsgDiv = document.getElementById("openWeather-error");
         try {
             const response = await openWeather.getWeatherByZipAxios(zip);
             setLocation(response[0]);
             setForecast(response[1]);
         }
-        catch
-        {
+        catch {
             console.log(" App says : problem getting weather info!.")
             errorMsgDiv.classList.add("error-msg-red");
             const messageText = document.createTextNode("There was a problem getting the forecast.");
             errorMsgDiv.appendChild(messageText);
-            return false;
         };
     } 
 
