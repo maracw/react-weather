@@ -7,9 +7,8 @@ const OPENWEATHER_DOMAIN = 'api.openweathermap.org';
 const OPENWEATHER_API_KEY_VALUE =process.env.REACT_APP_WEATHER_KEY;
 
 export default class OpenWeather {
-    constructor () {
-  
-    }
+    constructor () {}
+
     async getLatLng(zip) {
         let params ={
             zip: zip+',US',
@@ -25,7 +24,7 @@ export default class OpenWeather {
     async getForecast (lat, lng) {
         let params = {
             units: "imperial", 
-            lat:lat, 
+            lat: lat, 
             lon: lng
         }
         let weatherURL = OpenWeather.buildURL(OPENWEATHER_FORECAST_ENDPOINT, params);
@@ -35,23 +34,20 @@ export default class OpenWeather {
     }
     static buildURL (path, params) {
       const queryString = params!=null? OpenWeather.buildWeatherQueryString(params) : null;
-        return 'http://' + OPENWEATHER_DOMAIN + path +'?'+ queryString;
+      return 'http://' + OPENWEATHER_DOMAIN + path +'?'+ queryString;
     }
 
     static buildWeatherQueryString (params) {
         params.appid = OPENWEATHER_API_KEY_VALUE;
-        let queryString ='';
-            for (let key in params){
-                queryString+= (key) + '='
-                + encodeURIComponent(params[key]) + '&';
-            }
-            return queryString;
-            //return kvp.join(&)
+        let kvp =[];
+        for (let key in params){
+            //builds array of key value pairs
+            let value= params[key];
+            let tern = value==null?  key : [key, encodeURIComponent(value)].join('=');
+            kvp.push(tern);
+        }            
+        return kvp.join('&');
     }
-
-    //no methods in this class to make api requests directly
-    //fetch must be called in useEffect hook in App component
-    //see ocdla-axios for methods in this class using axios instead of useEffect
 }
 
 
