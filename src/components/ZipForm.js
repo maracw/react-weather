@@ -7,8 +7,11 @@ function ZipForm ({onSubmit}){
     //event handler that sends the zip code value back to App.js
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        errorMsgDiv.innerHTML='';
-        errorMsgDiv.classList.remove("error-msg-red");
+        if(errorMsgDiv!=null){
+            errorMsgDiv.innerHTML='';
+            errorMsgDiv.classList.remove("error-msg-red");
+        }
+       
         const pattern5DigitZip = /^\d{5}$/;
 
         //if zip is valid call onSubmit
