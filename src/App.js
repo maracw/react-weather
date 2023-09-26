@@ -20,13 +20,10 @@ function App () {
     
     let openWeather = new OpenWeather();
     
-    useEffect(() => {
-        if (currentZip!=null) {
-            let locationURL = openWeather.buildURL('http://', openWeather.locationPath, 'zip='+ currentZip + ',US&');
-            fetch(locationURL)
-            .then(response => response.json())
-            .then(data => {
-                const updatedLocation = {name: data.name, lat: data.lat, lon: data.lon};
+    useEffect(async () => {
+        if (currentZip!=null) 
+        {
+            const updatedLocation = await openWeather(currentZip);
                 setLocation(updatedLocation);
                 let weatherURL = openWeather.buildURL('http://', openWeather.weatherPath, openWeather.buildWeatherQueryString(updatedLocation.lat, updatedLocation.lon));
               fetch(weatherURL)
@@ -36,18 +33,15 @@ function App () {
                     setForecast(parsedWeather);
                 })
                 .catch(error => {
-                  if(currentZip!=null){
-                    setHasError(true);
-                    console.log(" App says : problem getting weather info!.")
-                    errorMsgDiv.classList.add("error-msg-red");
-                    const messageText = document.createTextNode("There was a problem getting the forecast.");
-                    errorMsgDiv.appendChild(messageText);
-                }
+                    if(currentZip!=null)
+                    {
+                        setHasError(true);
+                        console.log(" App says : problem getting weather info!.")
+                        errorMsgDiv.classList.add("error-msg-red");
+                        const messageText = document.createTextNode("There was a problem getting the forecast.");
+                        errorMsgDiv.appendChild(messageText);
+                    }
                 });
-            })
-            .catch(error => {
-                setHasError(true);
-            });
         }
     }, [ currentZip ]);
     
