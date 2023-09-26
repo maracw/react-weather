@@ -1,18 +1,14 @@
 import {useState} from 'react';
-import '../styles/ZipForm.css';
 
 function ZipForm ({onSubmit}){
-
     const [zip, setZip] = useState('');
-    
+    const errorMsgDiv = document.getElementById("openWeather-error");
+
     //event handler that sends the zip code value back to App.js
     const handleFormSubmit = (event) => {
         event.preventDefault();
-
-        const errorMsgDiv = document.getElementById("openWeather-error");
         errorMsgDiv.innerHTML='';
         errorMsgDiv.classList.remove("error-msg-red");
-
         const pattern5DigitZip = /^\d{5}$/;
 
         //if zip is valid call onSubmit
@@ -32,6 +28,7 @@ function ZipForm ({onSubmit}){
     const handleChange = (event) => {
         setZip(event.target.value);
     };
+    
     return (
         <div className="zip-form col-md-6">
             <form id="zipForm" className="d-flex flex-row" onSubmit={handleFormSubmit}>

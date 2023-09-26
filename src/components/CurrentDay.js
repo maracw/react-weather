@@ -1,28 +1,16 @@
 import {getWeekday} from '../utilities/dates';
-import '../styles/CurrentDay.css'
 
-
-
-function CurrentDay ({location, forecast, selectedDay, dateProp}) {
-
-
+function CurrentDay ({location, forecast, selectedDay}) {
     const day = forecast[selectedDay];
-    console.log ("date is" + day.dt);
-    const city = location.name;
-    //const day = forecast;
-
-    const date = day.dt;
-    const weekday = getWeekday(date); 
-
-    const pic = 'http://openweathermap.org/img/w/'+ day.icon + '.png';
+    const picSRC = 'http://openweathermap.org/img/w/'+ day.icon + '.png';
 
     if (selectedDay!=null){
         return (
         <div className="current-day-container mb-5 col-md-5">
             <div className="current-day">
                 <header>
-                    <h2 className='h2'> {weekday} in {city}</h2>
-                    <img src={pic} alt={day.description}/>
+                    <h2 className='h2'> {getWeekday(day.dt)} in {location.name}</h2>
+                    <img src={picSRC} alt={day.description}/>
                     <p className="h4"> {day.description} </p>
                 </header>
               
@@ -42,10 +30,8 @@ function CurrentDay ({location, forecast, selectedDay, dateProp}) {
                 </div>
             </div>);
     }
-    else {
-        return <div>No day yet</div>
-    }
-   
+    else 
+        return <div></div>
 }
 
 export default CurrentDay;

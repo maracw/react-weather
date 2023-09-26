@@ -1,26 +1,22 @@
-//import { getLocation, getWeather } from "./utilities/api";
-import OpenWeather from './utilities/openWeather';
 import { useState, useEffect } from "react";
+import OpenWeather from './utilities/openWeather';
 import ZipForm from './components/ZipForm';
 import CurrentDay from "./components/CurrentDay";
 import WeatherList from "./components/WeatherList";
-import parseForecast from "./utilities/weatherParsing";
 import Header from "./components/Header";
 import './styles/AppStyles.css';
 
-
 function App () {
-
     const [location, setLocation] = useState( { name: '', lat: '', lon:'' });
     const [forecast, setForecast] = useState([]);
     const [selectedDay, setSelectedDay] = useState(null);
-    //if set to null - it sends fetch requests that don't work
+    //if currentZip initialized to null - it sends fetch requests that don't work
     //if set to a valid zipcode, it starts normally with data on the screen
     const [currentZip, setCurrentZip] = useState(null);
 
     const [hasError, setHasError] = useState(false);
-
     const errorMsgDiv = document.getElementById("openWeather-error");
+    
     let openWeather = new OpenWeather();
     
     useEffect(() => {
@@ -42,7 +38,9 @@ function App () {
                   if(currentZip!=null){
                     setHasError(true);
                     console.log(" App says : problem getting weather info!.")
-                    createWeatherErrorDiv();
+                    errorMsgDiv.classList.add("error-msg-red");
+                    const messageText = document.createTextNode("There was a problem getting the forecast.");
+                    errorMsgDiv.appendChild(messageText);
                 }
                 });
             })
@@ -52,17 +50,9 @@ function App () {
         }
     }, [ currentZip ]);
     
-    const createWeatherErrorDiv =() =>{
-        errorMsgDiv.classList.add("error-msg-red");
-        const messageText = document.createTextNode("There was a problem getting the forecast.");
-        errorMsgDiv.appendChild(messageText);
-        const newEl = document.createElement("div");
-        newEl.innerHTML = "HI THERE";
-    }
 
     //updates currentZip state which triggers the useEffect function
     const handleSubmit = async (zip) => {
-
         setCurrentZip(zip);
         setSelectedDay(null); 
     } 
@@ -71,13 +61,10 @@ function App () {
         setSelectedDay(index);
     }
     
-    //conditional to handle jsx returned by app
-    if (selectedDay==null && forecast.length>0)
-    {
+    //conditional to handle jsx returned by App
+    if (selectedDay==null && forecast.length>0){
         return (<div className="row" id="weather-app">
-            <div>
-                <Header />
-            </div>
+            <div><Header /></div>
             <div id="openWeather-error"  className="error-msg"></div>
             <div className="row d-flex flex-row align-items-start">
                 <ZipForm onSubmit = {handleSubmit} />
@@ -85,40 +72,27 @@ function App () {
                     <WeatherList onDayClick={handleDayClick} forecast={forecast} cityName={location.name}/>     
                 </div>       
             </div>
-        </div>);
-    }
+        </div>);}
     else if (forecast.length>0){
-        return (
-        <div  id="weather-app">
-            <div>
-                <Header />
-            </div>
+        return (<div  id="weather-app">
+            <div><Header /></div>
             <div id="openWeather-error" className="error-msg"></div>
             <div className="row d-flex flex-row align-items-start">
                 <ZipForm  onSubmit = {handleSubmit} />
-                <CurrentDay location={location} forecast={forecast} dateProp ="" selectedDay={selectedDay} />
+                <CurrentDay location={location} forecast={forecast} selectedDay={selectedDay} />
             </div>
-            
             <section>
                 <div className="row">
                     <WeatherList onDayClick={handleDayClick} forecast={forecast} cityName={location.name}/>            
                 </div>
             </section>
-            
-        </div>);
-    }
+        </div>);}
     else 
-        return (
-        <div className="row" id="weather-app">
-            <div>
-                <Header />
-            </div>
-            <div className="row">
-                <ZipForm onSubmit = {handleSubmit} />
-            </div>
+        return (<div className="row" id="weather-app">
             <div id="openWeather-error"  className="error-msg"></div>
+            <div><Header /></div>
+            <div className="row"><ZipForm onSubmit = {handleSubmit} /></div>
         </div>);
-    
 }
 
 export default App;
