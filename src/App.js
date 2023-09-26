@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import OpenWeather from './utilities/openWeather';
+import OpenWeather from './utilities/OpenWeather';
 import ZipForm from './components/ZipForm';
 import CurrentDay from "./components/CurrentDay";
 import WeatherList from "./components/WeatherList";
@@ -20,30 +20,32 @@ function App () {
     
     let openWeather = new OpenWeather();
     
-    useEffect(async () => {
-        if (currentZip!=null) 
-        {
-            const updatedLocation = await openWeather(currentZip);
-                setLocation(updatedLocation);
-                let weatherURL = openWeather.buildURL('http://', openWeather.weatherPath, openWeather.buildWeatherQueryString(updatedLocation.lat, updatedLocation.lon));
-              fetch(weatherURL)
-                .then(response => response.json())
-                .then(data => {  
-                    let parsedWeather = parseForecast(data.list, data.city.timezone);
-                    setForecast(parsedWeather);
-                })
-                .catch(error => {
-                    if(currentZip!=null)
-                    {
-                        setHasError(true);
-                        console.log(" App says : problem getting weather info!.")
-                        errorMsgDiv.classList.add("error-msg-red");
-                        const messageText = document.createTextNode("There was a problem getting the forecast.");
-                        errorMsgDiv.appendChild(messageText);
-                    }
-                });
+    useEffect(() => {
+    if (currentZip==null) 
+    {
+        return
+    }
+    
+        async function fetchData() {
+            try {
+                let location = await openWeather.getLatLng(currentZip);
+                setLocation(location);
+                let forecast = await openWeather.getForecast(location.lat, location.lon);
+                setForecast(forecast);
+            }
+            catch(error) {
+                if(currentZip!=null)
+                {
+                    setHasError(true);
+                    console.log(" App says : problem getting weather info!.")
+                    errorMsgDiv.classList.add("error-msg-red");
+                    const messageText = document.createTextNode("There was a problem getting the forecast.");
+                    errorMsgDiv.appendChild(messageText);
+                }
+            };
         }
-    }, [ currentZip ]);
+        fetchData();
+}, [ currentZip ]);
     
 
     //updates currentZip state which triggers the useEffect function

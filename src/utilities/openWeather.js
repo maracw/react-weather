@@ -1,19 +1,20 @@
 import axios from "axios";
 import parseForecast from './weatherParsing';
 
+const OPENWEATHER_FORECAST_ENDPOINT = '/data/2.5/forecast';
+const OPENWEATHER_LOCATION_ENDPOINT = '/geo/1.0/zip';
+const OPENWEATHER_DOMAIN = 'api.openweathermap.org';
+const OPENWEATHER_API_KEY_VALUE =process.env.REACT_APP_WEATHER_KEY;
+
 export default class OpenWeather {
     constructor () {
-        //class variables to construct url for fetch
-        this.domain ='api.openweathermap.org';
-
-        this.weatherPath = '/data/2.5/forecast?';
-        this.locationPath = '/geo/1.0/zip?';
-
-         //value starts with 'appid='
-        this.apiKeyString = process.env.REACT_APP_WEATHER_KEY;
+  
     }
     async getLatLng(zip) {
-        let locationURL = this.buildURL('http://', this.locationPath, 'zip='+ zip + ',US&');
+        let params ={
+            zip: zip+',US',
+        };
+        let locationURL = OpenWeather.buildURL(OPENWEATHER_LOCATION_ENDPOINT, params);
         const response =  await fetch(locationURL);
         //gets back http response
         const data = await response.json();    
@@ -21,22 +22,31 @@ export default class OpenWeather {
         return  {name: data.name, lat: data.lat, lon: data.lon};
     }
 
-    buildURL = (scheme, path, queryString) => {
-        return scheme + this.domain + path + queryString + this.apiKeyString;
+    async getForecast (lat, lng) {
+        let params = {
+            units: "imperial", 
+            lat:lat, 
+            lon: lng
+        }
+        let weatherURL = OpenWeather.buildURL(OPENWEATHER_FORECAST_ENDPOINT, params);
+        const response = await fetch(weatherURL);
+        const data = await response.json();
+        return parseForecast(data.list, data.city.timezone);
+    }
+    static buildURL (path, params) {
+      const queryString = params!=null? OpenWeather.buildWeatherQueryString(params) : null;
+        return 'http://' + OPENWEATHER_DOMAIN + path +'?'+ queryString;
     }
 
-    //takes a js object with key value pairs, iterates over it
-    //could be made to be more generic by passing in an object instead of lat and lng
-    buildWeatherQueryString (lat, lon) {
-        const data = {
-            units: "imperial", lat, lon
-        }
+    static buildWeatherQueryString (params) {
+        params.appid = OPENWEATHER_API_KEY_VALUE;
         let queryString ='';
-            for (let key in data){
-                queryString+= encodeURIComponent(key) + '='
-                + encodeURIComponent(data[key]) + '&';
+            for (let key in params){
+                queryString+= (key) + '='
+                + encodeURIComponent(params[key]) + '&';
             }
             return queryString;
+            //return kvp.join(&)
     }
 
     //no methods in this class to make api requests directly
