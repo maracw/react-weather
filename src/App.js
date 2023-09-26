@@ -4,6 +4,7 @@ import ZipForm from './components/ZipForm';
 import CurrentDay from "./components/CurrentDay";
 import WeatherList from "./components/WeatherList";
 import Header from "./components/Header";
+import parseForecast from "./utilities/weatherParsing";
 import './styles/AppStyles.css';
 
 function App () {

@@ -7,7 +7,7 @@ function WeatherList ({onDayClick, forecast, cityName}) {
     
    return (
     <div className="weather-list">
-        <h2 className="mx-auto">4 Day Forecast in {cityName}</h2>
+        <h2 className="mx-auto">Weather Forecast for {cityName}</h2>
         <div className="weather-list">{renderedWeatherItems}</div>
     </div>
     );
