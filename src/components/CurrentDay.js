@@ -1,7 +1,4 @@
 import {getWeekday} from '../utilities/dates';
-import '../styles/CurrentDay.css'
-
-
 
 function CurrentDay ({location, forecast, dateProp, selectedDay}) {
 

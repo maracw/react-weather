@@ -18,16 +18,28 @@ export default class OpenWeather {
             lat : '',
             lon :''
         };
-        //used to hold returned value for name from location call
-        this.locationName='';
+        this.locationData ={
+            name: '',
+            lat: '',
+            lon: ''
+        };
+
     }
        
     //works with axios
     async getLatAndLongByZip (zip) {
         let locationURL = this.buildURL('http://', this.locationPath, 'zip='+ zip + ',US&');
         const response = await axios.get(locationURL);
-        this.locationName = response.data.name;
-        console.log(this.locationName);
+    }
+    //axios version
+    async getWeatherByZipAxios(zip) {
+
+    let locationURL = this.buildURL('http://', this.locationPath, 'zip='+ zip + ',US&');
+    const response = await axios.get(locationURL);
+    this.locationData = response.data;
+    const weatherResponse = await this.getWeatherAxios(this.locationData.lat, this.locationData.lon);
+    const locationAndWeather = [this.locationData, weatherResponse];
+    return locationAndWeather;
     }
 
     async getWeather(lat, lng) {

@@ -1,5 +1,4 @@
 import WeatherListItem from "./WeatherListitem";
-import '../styles/WeatherList.css';
 
 function WeatherList ({onDayClick, forecast}) {
     const renderedWeatherItems = forecast.map ((item) => {

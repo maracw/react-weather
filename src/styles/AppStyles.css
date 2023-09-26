@@ -7,3 +7,93 @@ body {
 header {
     font-family: 'Quattrocento', serif;
 }
+
+.error-msg{
+    padding: 1.25rem;
+    margin: auto;
+}
+
+.error-msg-red{
+    background-color: rgb(231, 183, 183);
+    
+}
+.zip-form{
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin:0 1rem;
+}
+
+.zip-form form div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 15px;
+}
+.weather-list {
+    background-color: rgb(230, 247, 250);
+    padding: 2rem;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-radius: 20px;
+}
+
+.weather-list-item {
+    padding: 1rem 1.5rem;
+    margin: .5rem;
+    margin-bottom: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0px 3px 4px gray;
+    background-color: #fff;
+   
+}
+.current-day-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 2rem;
+    
+}
+
+.current-day {
+    box-shadow: 0px 3px 4px gray;
+    background-color: #fff;
+    border-radius: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 85%;
+}
+
+.current-day header {
+    background-color: rgb(63, 86, 90);
+    color:#fff;
+    width:100%;
+    margin-top: 2rem;
+    margin-right: 0;
+    padding: .5rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+img {
+    width: 10vw;
+    max-width: 133px;
+}
+.current-day-details{
+    margin-left: .75rem;
+    margin-right: .75rem;
+    padding: 2rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
