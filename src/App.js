@@ -11,8 +11,6 @@ function App () {
     const [location, setLocation] = useState( { name: '', lat: '', lon:'' });
     const [forecast, setForecast] = useState([]);
     const [selectedDay, setSelectedDay] = useState(null);
-    //if currentZip initialized to null - it sends fetch requests that don't work
-    //if set to a valid zipcode, it starts normally with data on the screen
     const [currentZip, setCurrentZip] = useState("95616");
 
     const [hasError, setHasError] = useState(false);
@@ -25,7 +23,6 @@ function App () {
     {
         return
     }
-    
         async function fetchData() {
             try {
                 let location = await openWeather.getLatLng(currentZip);

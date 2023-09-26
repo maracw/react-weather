@@ -15,9 +15,7 @@ export default class OpenWeather {
         };
         let locationURL = OpenWeather.buildURL(OPENWEATHER_LOCATION_ENDPOINT, params);
         const response =  await fetch(locationURL);
-        //gets back http response
         const data = await response.json();    
-        //await reading the response body
         return  {name: data.name, lat: data.lat, lon: data.lon};
     }
 
@@ -47,7 +45,7 @@ export default class OpenWeather {
             kvp.push(tern);
         }            
         return kvp.join('&');
-    }
+    } 
 }
 
 
