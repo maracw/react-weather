@@ -8,4 +8,12 @@ header {
     font-family: 'Quattrocento', serif;
 }
 
+.error-msg{
+    padding: 1.25rem;
+    margin: auto;
+}
 
+.error-msg-red{
+    background-color: rgb(231, 183, 183);
+    
+}

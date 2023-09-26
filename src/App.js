@@ -1,6 +1,6 @@
 //import { getLocation, getWeather } from "./utilities/api";
 import OpenWeather from './utilities/openWeather';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ZipForm from './components/ZipForm';
 import CurrentDay from "./components/CurrentDay";
 import WeatherList from "./components/WeatherList";
@@ -11,43 +11,70 @@ import './styles/AppStyles.css';
 
 function App () {
 
-    const [location, setLocation] = useState([ { name: '', lat: '', lon:'' }]);
+    const [location, setLocation] = useState( { name: '', lat: '', lon:'' });
     const [forecast, setForecast] = useState([]);
     const [selectedDay, setSelectedDay] = useState(null);
-   
-    const handleSubmit = async (zip) => {
-        let localLat =  null;
-        let localLon = null;
-        let openWeather = new OpenWeather();
+    //if set to null - it sends fetch requests that don't work
+    //if set to a valid zipcode, it starts normally with data on the screen
+    const [currentZip, setCurrentZip] = useState(null);
 
-        const errorMsgDiv = document.getElementById("openWeather-error");
-        errorMsgDiv.innerHTML='';
-        errorMsgDiv.classList.remove("error-msg-red");
+    const [hasError, setHasError] = useState(false);
 
-        try {
-            const response = await openWeather.getLocationAxios(zip);
-            setLocation(response[0]);
-            setForecast(response[1]);
-            setSelectedDay(null);
+    const errorMsgDiv = document.getElementById("openWeather-error");
+    let openWeather = new OpenWeather();
+    
+    useEffect(() => {
+        if (currentZip!=null) {
+            let locationURL = openWeather.buildURL('http://', openWeather.locationPath, 'zip='+ currentZip + ',US&');
+            fetch(locationURL)
+            .then(response => response.json())
+            .then(data => {
+                const updatedLocation = {name: data.name, lat: data.lat, lon: data.lon};
+                setLocation(updatedLocation);
+                let weatherURL = openWeather.buildURL('http://', openWeather.weatherPath, openWeather.buildWeatherQueryString(updatedLocation.lat, updatedLocation.lon));
+              fetch(weatherURL)
+                .then(response => response.json())
+                .then(data => {  
+                    let parsedWeather = parseForecast(data.list, data.city.timezone);
+                    setForecast(parsedWeather);
+                })
+                .catch(error => {
+                  if(currentZip!=null){
+                    setHasError(true);
+                    console.log(" App says : problem getting weather info!.")
+                    createWeatherErrorDiv();
+                }
+                });
+            })
+            .catch(error => {
+                setHasError(true);
+            });
         }
-        catch
-        {  
-            console.log(" App says : problem at calling get location.")
-            errorMsgDiv.classList.add("error-msg-red");
-            const messageText = document.createTextNode("There was a problem getting the forecast.");
-            errorMsgDiv.appendChild(messageText);
-            
-        };  
+    }, [ currentZip ]);
+    
+    const createWeatherErrorDiv =() =>{
+        errorMsgDiv.classList.add("error-msg-red");
+        const messageText = document.createTextNode("There was a problem getting the forecast.");
+        errorMsgDiv.appendChild(messageText);
+        const newEl = document.createElement("div");
+        newEl.innerHTML = "HI THERE";
+    }
+
+    //updates currentZip state which triggers the useEffect function
+    const handleSubmit = async (zip) => {
+
+        setCurrentZip(zip);
+        setSelectedDay(null); 
     } 
 
-    //onDayClick testing
     const handleDayClick = (index) =>{
         setSelectedDay(index);
     }
-  
-    if (selectedDay==null && forecast.length>0){
-        return (
-        <div className="row" id="weather-app">
+    
+    //conditional to handle jsx returned by app
+    if (selectedDay==null && forecast.length>0)
+    {
+        return (<div className="row" id="weather-app">
             <div>
                 <Header />
             </div>
@@ -91,6 +118,7 @@ function App () {
             </div>
             <div id="openWeather-error"  className="error-msg"></div>
         </div>);
+    
 }
 
 export default App;

@@ -29,8 +29,6 @@ export default class OpenWeather {
     
     //axios version
     async getLocationAxios(zip) {
-        // let localLat =  null;
-        // let localLon = null;
         let locationURL = this.buildURL('http://', this.locationPath, 'zip='+ zip + ',US&');
         const response = await axios.get(locationURL);
         this.locationData = response.data;

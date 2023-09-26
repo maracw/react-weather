@@ -16,13 +16,12 @@ function ZipForm ({onSubmit}){
         const pattern5DigitZip = /^\d{5}$/;
 
         //if zip is valid call onSubmit
-        //if zip is not valid create element on screen (not a react component)
+        //if zip is not valid create a child element on screen (not a react component)
         if(pattern5DigitZip.test(zip)){
             onSubmit(zip);
         }
         else
         {
-            //create div with message
             errorMsgDiv.classList.add("error-msg-red");
             const messageText = document.createTextNode("Please enter a 5 digit US zip code to continue.");
             errorMsgDiv.appendChild(messageText);

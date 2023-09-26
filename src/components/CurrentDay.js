@@ -5,6 +5,7 @@ import '../styles/CurrentDay.css'
 
 function CurrentDay ({location, forecast, selectedDay, dateProp}) {
 
+
     const day = forecast[selectedDay];
     console.log ("date is" + day.dt);
     const city = location.name;
