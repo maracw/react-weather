@@ -5,6 +5,16 @@ function CurrentDay ({location, forecast, selectedDay, currentUnits}) {
     const picSRC = 'http://openweathermap.org/img/w/'+ day.icon + '.png';
 
     const displayUnits = currentUnits=="imperial"? "F" :"C";
+    // let displayUnits = (currentUnits) =>{
+    //     switch (currentUnits){
+    //         case 'imperial':
+    //             return 'F';
+    //         case 'metric':
+    //             return 'C';
+    //         case 'null':
+    //             return 'K';
+    //     }
+    // };
 
     if (selectedDay!=null){
         return (

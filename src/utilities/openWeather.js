@@ -22,10 +22,9 @@ export default class OpenWeather {
         return  {name: data.name, lat: data.lat, lon: data.lon};
     }
 
-    async getForecast (lat, lng) {
-        let unitsTest = "metric";
+    async getForecast (lat, lng, units) {
         let params = {
-            units: unitsTest, 
+            units: units, 
             lat: lat, 
             lon: lng,
             appid: OPENWEATHER_API_KEY_VALUE,

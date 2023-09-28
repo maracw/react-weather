@@ -12,7 +12,7 @@ function App () {
     const [forecast, setForecast] = useState([]);
     const [selectedDay, setSelectedDay] = useState(null);
     const [currentZip, setCurrentZip] = useState(null);
-    const [currentUnits, setCurrentUnits] = useState ('imperial');
+    const [currentUnits, setCurrentUnits] = useState ('');
 
     const [hasError, setHasError] = useState(false);
     const errorMsgDiv = document.getElementById("openWeather-error");
@@ -28,7 +28,7 @@ function App () {
             try {
                 let location = await openWeather.getLatLng(currentZip);
                 setLocation(location);
-                let forecast = await openWeather.getForecast(location.lat, location.lon);
+                let forecast = await openWeather.getForecast(location.lat, location.lon, currentUnits);
                 setForecast(forecast);
             }
             catch(error) {
