@@ -12,6 +12,7 @@ function App () {
     const [forecast, setForecast] = useState([]);
     const [selectedDay, setSelectedDay] = useState(null);
     const [currentZip, setCurrentZip] = useState(null);
+    const [currentUnits, setCurrentUnits] = useState ('imperial');
 
     const [hasError, setHasError] = useState(false);
     const errorMsgDiv = document.getElementById("openWeather-error");
@@ -42,12 +43,13 @@ function App () {
             };
         }
         fetchData();
-}, [ currentZip ]);
+}, [ currentZip, currentUnits ]);
     
 
     //updates currentZip state which triggers the useEffect function
-    const handleSubmit = async (zip) => {
+    const handleSubmit = async (zip, units) => {
         setCurrentZip(zip);
+        setCurrentUnits(units);
         setSelectedDay(null); 
     } 
 
@@ -63,7 +65,10 @@ function App () {
             <div className="row d-flex flex-row align-items-start">
                 <ZipForm onSubmit = {handleSubmit} />
                 <div className='col-md-5'>
-                    <WeatherList onDayClick={handleDayClick} forecast={forecast} cityName={location.name}/>     
+                    <WeatherList onDayClick={handleDayClick} 
+                        forecast={forecast} 
+                        cityName={location.name}
+                        currentUnits={currentUnits}/>     
                 </div>       
             </div>
         </div>);}
@@ -73,12 +78,18 @@ function App () {
             <div id="openWeather-error" className="error-msg"></div>
             <div className="row d-flex flex-row align-items-start">
                 <ZipForm  onSubmit = {handleSubmit} />
-                <CurrentDay location={location} forecast={forecast} selectedDay={selectedDay} />
+                <CurrentDay location={location} 
+                    forecast={forecast} 
+                    selectedDay={selectedDay} 
+                    currentUnits={currentUnits} />
             </div>
             <section>
-                <div className="row">
-                    <WeatherList onDayClick={handleDayClick} forecast={forecast} cityName={location.name}/>            
-                </div>
+            <div className='col-md-5'>
+                    <WeatherList onDayClick={handleDayClick} 
+                        forecast={forecast} 
+                        cityName={location.name}
+                        currentUnits={currentUnits}/>     
+                </div>  
             </section>
         </div>);}
     else 

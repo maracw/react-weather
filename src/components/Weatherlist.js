@@ -1,8 +1,12 @@
 import WeatherListItem from "./WeatherListitem";
 
-function WeatherList ({onDayClick, forecast, cityName}) {
+function WeatherList ({onDayClick, forecast, cityName, currentUnits}) {
     const renderedWeatherItems = forecast.map ((item) => {
-        return <WeatherListItem key = {item.dt} forecastDay={item} index = {forecast.indexOf(item)} onDayClick={onDayClick} />
+        return <WeatherListItem key = {item.dt} 
+        forecastDay={item} 
+        index = {forecast.indexOf(item)}
+        currentUnits={currentUnits} 
+        onDayClick={onDayClick} />
     });
     
    return (
