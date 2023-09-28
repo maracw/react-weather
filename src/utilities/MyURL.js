@@ -16,8 +16,12 @@ class MyURL {
     static createURL(scheme, domain, endpoint, params){
         //if params is not null - transform the object into an string using ,for in and join 
         let queryString = params!==null? this.buildQueryString(params) : "";
-        return scheme + domain + endpoint +'?' + params;
+       
+        const result = scheme + domain + endpoint +'?' + params;
+        console.log("###result from MyURL: "+ result);
+        return result;
     }
+    
 
     static buildQueryString(params) {
         let kvp =[];
@@ -29,6 +33,9 @@ class MyURL {
         return kvp.join('&');
     }
 
+    static buildQueryStringNoEncoding(params) {
+
+    }
     //take a string and parse it into its various URL components
     static componentsFromURL(url) {
 

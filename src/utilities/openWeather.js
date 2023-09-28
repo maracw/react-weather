@@ -23,8 +23,10 @@ export default class OpenWeather {
         };
         //new class
         let locationURL1 = MyURL.createURL(SCHEME, OPENWEATHER_DOMAIN, OPENWEATHER_LOCATION_ENDPOINT, params1);
+        console.log('result from call on static MyURL method : '+locationURL1);
         //orig
         let locationURL2 =OpenWeather.buildURL(OPENWEATHER_LOCATION_ENDPOINT,params);
+        console.log('result from call on static OpenWeather method : '+locationURL2);
         const response =  await fetch(locationURL2);
         const data = await response.json();    
         return  {name: data.name, lat: data.lat, lon: data.lon};
