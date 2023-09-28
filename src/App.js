@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import OpenWeather from './utilities/OpenWeather';
+import OpenWeather from "./utilities/OpenWeather";
 import ZipForm from './components/ZipForm';
 import CurrentDay from "./components/CurrentDay";
 import WeatherList from "./components/WeatherList";
@@ -11,7 +11,7 @@ function App () {
     const [location, setLocation] = useState( { name: '', lat: '', lon:'' });
     const [forecast, setForecast] = useState([]);
     const [selectedDay, setSelectedDay] = useState(null);
-    const [currentZip, setCurrentZip] = useState("95616");
+    const [currentZip, setCurrentZip] = useState(null);
 
     const [hasError, setHasError] = useState(false);
     const errorMsgDiv = document.getElementById("openWeather-error");

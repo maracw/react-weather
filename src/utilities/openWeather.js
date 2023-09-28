@@ -1,6 +1,9 @@
 import axios from "axios";
 import parseForecast from './weatherParsing';
+import URL from './MyURL';
+import MyURL from "./MyURL";
 
+const SCHEME ='http://';
 const OPENWEATHER_FORECAST_ENDPOINT = '/data/2.5/forecast';
 const OPENWEATHER_LOCATION_ENDPOINT = '/geo/1.0/zip';
 const OPENWEATHER_DOMAIN = 'api.openweathermap.org';
@@ -10,11 +13,19 @@ export default class OpenWeather {
     constructor () {}
 
     async getLatLng(zip) {
-        let params ={
+        let params1 ={
+            zip: zip+',US',
+            appid: OPENWEATHER_API_KEY_VALUE
+        };
+
+        let params = {
             zip: zip+',US',
         };
-        let locationURL = OpenWeather.buildURL(OPENWEATHER_LOCATION_ENDPOINT, params);
-        const response =  await fetch(locationURL);
+        //new class
+        let locationURL1 = MyURL.createURL(SCHEME, OPENWEATHER_DOMAIN, OPENWEATHER_LOCATION_ENDPOINT, params1);
+        //orig
+        let locationURL2 =OpenWeather.buildURL(OPENWEATHER_LOCATION_ENDPOINT,params);
+        const response =  await fetch(locationURL2);
         const data = await response.json();    
         return  {name: data.name, lat: data.lat, lon: data.lon};
     }
@@ -23,9 +34,10 @@ export default class OpenWeather {
         let params = {
             units: "imperial", 
             lat: lat, 
-            lon: lng
+            lon: lng,
+            appid: OPENWEATHER_API_KEY_VALUE,
         }
-        let weatherURL = OpenWeather.buildURL(OPENWEATHER_FORECAST_ENDPOINT, params);
+        let weatherURL = MyURL.createURL(SCHEME, OPENWEATHER_DOMAIN,OPENWEATHER_FORECAST_ENDPOINT, params);
         const response = await fetch(weatherURL);
         const data = await response.json();
         return parseForecast(data.list, data.city.timezone);
