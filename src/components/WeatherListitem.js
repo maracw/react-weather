@@ -9,7 +9,18 @@ const handleItemClick =() => {
     onDayClick(index);
 }
 
-const displayUnits = currentUnits=="imperial"? "F" :"C";
+//const displayUnits = currentUnits=="imperial"? "F" :"C";
+let displayUnits;
+    if(currentUnits =="metric"){
+        displayUnits="C";
+    }
+    else if (currentUnits=="imperial"){
+        displayUnits="F";
+    }
+    else{
+        displayUnits="K";
+    }
+    console.log(displayUnits + currentUnits);
 
    return (
     <div className="weather-list-item" data-index={index} onClick={handleItemClick}>

@@ -23,6 +23,9 @@ export default class OpenWeather {
     }
 
     async getForecast (lat, lng, units) {
+        if (units ==="standard"){
+            units = null;
+        }
         let params = {
             units: units, 
             lat: lat, 

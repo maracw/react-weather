@@ -33,10 +33,6 @@ function ZipForm ({onSubmit}){
         setZip(event.target.value);
     };
 
-    const handleUnitsChange = (event) => {
-        const test = event.target.value;
-        setUnits(test);
-    };
 
     return (
         <div className="zip-form col-md-6">
