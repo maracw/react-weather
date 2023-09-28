@@ -16,8 +16,8 @@ class MyURL {
     static createURL(scheme, domain, endpoint, params){
         //if params is not null - transform the object into an string using ,for in and join 
         let queryString = params!==null? this.buildQueryString(params) : "";
-       
-        const result = scheme + domain + endpoint +'?' + params;
+       console.log("querystring is :" +queryString);
+        const result = scheme + domain + endpoint +'?' + queryString;
         console.log("###result from MyURL: "+ result);
         return result;
     }

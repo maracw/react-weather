@@ -27,7 +27,7 @@ export default class OpenWeather {
         //orig
         let locationURL2 =OpenWeather.buildURL(OPENWEATHER_LOCATION_ENDPOINT,params);
         console.log('result from call on static OpenWeather method : '+locationURL2);
-        const response =  await fetch(locationURL2);
+        const response =  await fetch(locationURL1);
         const data = await response.json();    
         return  {name: data.name, lat: data.lat, lon: data.lon};
     }
