@@ -1,6 +1,5 @@
 import axios from "axios";
 import parseForecast from './weatherParsing';
-import URL from './MyURL';
 import MyURL from "./MyURL";
 
 const SCHEME ='http://';
@@ -24,8 +23,9 @@ export default class OpenWeather {
     }
 
     async getForecast (lat, lng) {
+        let unitsTest = "metric";
         let params = {
-            units: "imperial", 
+            units: unitsTest, 
             lat: lat, 
             lon: lng,
             appid: OPENWEATHER_API_KEY_VALUE,
