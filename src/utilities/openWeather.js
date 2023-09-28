@@ -13,21 +13,12 @@ export default class OpenWeather {
     constructor () {}
 
     async getLatLng(zip) {
-        let params1 ={
+        let params ={
             zip: zip+',US',
             appid: OPENWEATHER_API_KEY_VALUE
         };
-
-        let params = {
-            zip: zip+',US',
-        };
-        //new class
-        let locationURL1 = MyURL.createURL(SCHEME, OPENWEATHER_DOMAIN, OPENWEATHER_LOCATION_ENDPOINT, params1);
-        console.log('result from call on static MyURL method : '+locationURL1);
-        //orig
-        let locationURL2 =OpenWeather.buildURL(OPENWEATHER_LOCATION_ENDPOINT,params);
-        console.log('result from call on static OpenWeather method : '+locationURL2);
-        const response =  await fetch(locationURL1);
+        let locationURL = MyURL.createURL(SCHEME, OPENWEATHER_DOMAIN, OPENWEATHER_LOCATION_ENDPOINT, params);
+        const response =  await fetch(locationURL);
         const data = await response.json();    
         return  {name: data.name, lat: data.lat, lon: data.lon};
     }
@@ -44,22 +35,6 @@ export default class OpenWeather {
         const data = await response.json();
         return parseForecast(data.list, data.city.timezone);
     }
-    static buildURL (path, params) {
-      const queryString = params!=null? OpenWeather.buildWeatherQueryString(params) : null;
-      return 'http://' + OPENWEATHER_DOMAIN + path +'?'+ queryString;
-    }
-
-    static buildWeatherQueryString (params) {
-        params.appid = OPENWEATHER_API_KEY_VALUE;
-        let kvp =[];
-        for (let key in params){
-            //builds array of key value pairs
-            let value= params[key];
-            let tern = value==null?  key : [key, encodeURIComponent(value)].join('=');
-            kvp.push(tern);
-        }            
-        return kvp.join('&');
-    } 
 }
 
 
