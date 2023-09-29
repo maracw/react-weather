@@ -1,4 +1,6 @@
-class MyURL {
+
+
+class Url {
     scheme;
     domain;
     endpoint;
@@ -30,31 +32,21 @@ class MyURL {
         return kvp.join('&');
     }
 
+    //overloaded to string (not static)
+    //use this to get the string
+
     //in process
-    static parseQueryStringFromURL(url) {
-        //get the text after the search operator
-        let queryString = url.split('?')[1];
-        let queryString2 = url.substring(url.indexOf('?')+1);
-        //get an array of kvp
-        let kvp = queryString.split('&');
-        
-        let params={};
+    static parseQueryString(queryString) {
+        //parseing string as "x-www-urlform-encoded"
+        //parseAsWwwUrlformEncoded
+        /*google doc contents*/
+       //content type "x-www-urlform-encoded"
+       //split by 
 
-        params = kvp.map((el)=>{
-            let arr = el.split('='); 
-            let key=arr[0];
-            let value =arr[1];
-            return {key : value}; 
-        })
-
-        let params2 ={};
-        params2 = kvp.map((el)=>{
-            let arr = el.split('=');
-            return [arr[0], arr[1]];
-        })
-        console.log(params);
-        console.log(params2);
+       //return url objects with the properties set (scheme, etc, params object is result of the parseAsWwwUrlformEncoded)
     } 
+
+    //add consts
 }
 
-export default MyURL;
+export default Url;

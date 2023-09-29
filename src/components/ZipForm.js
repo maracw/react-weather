@@ -54,7 +54,7 @@ function ZipForm ({onSubmit}){
                             >
                             <option value="imperial">Imperial</option>
                             <option value="metric">Metric</option>
-                            <option value="standard">Science</option>
+                            <option value="standard">Science!</option>
                         </select>
                     </div>
                     <button type="submit" className="my-3 btn btn-success"> Get the forecast!</button>

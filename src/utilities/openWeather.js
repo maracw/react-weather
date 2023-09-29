@@ -1,6 +1,6 @@
 import axios from "axios";
-import parseForecast from './weatherParsing';
-import MyURL from "./MyURL";
+import {parseForecastV2_5 as parseForecast} from './weatherParsing';
+import {Url as MyURL} from "./Url";
 
 const SCHEME ='http://';
 const OPENWEATHER_FORECAST_ENDPOINT = '/data/2.5/forecast';
@@ -16,6 +16,11 @@ export default class OpenWeather {
             zip: zip+',US',
             appid: OPENWEATHER_API_KEY_VALUE
         };
+        //ordered params orig
+        //setters
+        //send a string or object to the constructor
+        //make instace of MyUrl
+        //overloaded to string on Url
         let locationURL = MyURL.createURL(SCHEME, OPENWEATHER_DOMAIN, OPENWEATHER_LOCATION_ENDPOINT, params);
         const parseResult = MyURL.parseQueryStringFromURL(locationURL);
         const response =  await fetch(locationURL);
