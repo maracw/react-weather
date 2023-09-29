@@ -11,7 +11,6 @@ class MyURL {
         this.params = params;
     }
 
-    //Create a URL class in JavaScript that uses these methods to create a URL String;
     //which of these can be null?
     static createURL(scheme, domain, endpoint, params){
         //if params is not null - transform the object into an string using ,for in and join 
@@ -31,6 +30,7 @@ class MyURL {
         return kvp.join('&');
     }
 
+    //in process
     static parseQueryStringFromURL(url) {
         //get the text after the search operator
         let queryString = url.split('?')[1];
