@@ -17,6 +17,7 @@ export default class OpenWeather {
             appid: OPENWEATHER_API_KEY_VALUE
         };
         let locationURL = MyURL.createURL(SCHEME, OPENWEATHER_DOMAIN, OPENWEATHER_LOCATION_ENDPOINT, params);
+        const parseResult = MyURL.parseQueryStringFromURL(locationURL);
         const response =  await fetch(locationURL);
         const data = await response.json();    
         return  {name: data.name, lat: data.lat, lon: data.lon};

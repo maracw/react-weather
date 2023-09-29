@@ -16,9 +16,7 @@ class MyURL {
     static createURL(scheme, domain, endpoint, params){
         //if params is not null - transform the object into an string using ,for in and join 
         let queryString = params!==null? this.buildQueryString(params) : "";
-       console.log("querystring is :" +queryString);
         const result = scheme + domain + endpoint +'?' + queryString;
-        console.log("###result from MyURL: "+ result);
         return result;
     }
     
@@ -33,13 +31,30 @@ class MyURL {
         return kvp.join('&');
     }
 
-    static buildQueryStringNoEncoding(params) {
+    static parseQueryStringFromURL(url) {
+        //get the text after the search operator
+        let queryString = url.split('?')[1];
+        let queryString2 = url.substring(url.indexOf('?')+1);
+        //get an array of kvp
+        let kvp = queryString.split('&');
+        
+        let params={};
 
-    }
-    //take a string and parse it into its various URL components
-    static componentsFromURL(url) {
+        params = kvp.map((el)=>{
+            let arr = el.split('='); 
+            let key=arr[0];
+            let value =arr[1];
+            return {key : value}; 
+        })
 
-    }
+        let params2 ={};
+        params2 = kvp.map((el)=>{
+            let arr = el.split('=');
+            return [arr[0], arr[1]];
+        })
+        console.log(params);
+        console.log(params2);
+    } 
 }
 
 export default MyURL;

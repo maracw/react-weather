@@ -10,17 +10,11 @@ const handleItemClick =() => {
 }
 
 //const displayUnits = currentUnits=="imperial"? "F" :"C";
-let displayUnits;
-    if(currentUnits =="metric"){
-        displayUnits="C";
-    }
-    else if (currentUnits=="imperial"){
-        displayUnits="F";
-    }
-    else{
-        displayUnits="K";
-    }
-    console.log(displayUnits + currentUnits);
+let displayUnits ='K';
+if(currentUnits !="standard"){
+    displayUnits = currentUnits=="imperial"? "F" :"C";
+}
+
 
    return (
     <div className="weather-list-item" data-index={index} onClick={handleItemClick}>

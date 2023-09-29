@@ -38,16 +38,7 @@ function ZipForm ({onSubmit}){
         <div className="zip-form col-md-6">
             <form id="zipForm" className="d-flex flex-row" onSubmit={handleFormSubmit} >
                 <div className="m-3">
-                <div>
-                    <select
-                    value={units} // ...force the select's value to match the state variable...
-                    onChange={e => setUnits(e.target.value)} // ... and update the state variable on any change!
-                    >
-                        <option value="imperial">Imperial</option>
-                        <option value="metric">Metric</option>
-                        <option value="standard">Standard</option>
-                     </select>
-                </div>
+ 
                     <div>
                         <label className="my-3">Enter a five digit Zipcode:</label>
                         <input 
@@ -57,7 +48,14 @@ function ZipForm ({onSubmit}){
                         />
                     </div>
                     <div>
-
+                        <select
+                            value={units} 
+                            onChange={e => setUnits(e.target.value)}
+                            >
+                            <option value="imperial">Imperial</option>
+                            <option value="metric">Metric</option>
+                            <option value="standard">Science</option>
+                        </select>
                     </div>
                     <button type="submit" className="my-3 btn btn-success"> Get the forecast!</button>
                 </div>
