@@ -1,10 +1,12 @@
 import axios from "axios";
-import {parseForecastV2_5 as parseForecast} from './weatherParsing';
-import {Url as MyURL} from "./Url";
+import {default as parseForecast} from './weatherParsing';
+import {default as MyURL} from "./Url";
 
 const SCHEME ='http://';
-const OPENWEATHER_FORECAST_ENDPOINT = '/data/2.5/forecast';
-const OPENWEATHER_LOCATION_ENDPOINT = '/geo/1.0/zip';
+const LOCATION_VERSION ='1.0';
+const FORECAST_VERSION = '2.5';
+const OPENWEATHER_FORECAST_ENDPOINT = '/data/'+ FORECAST_VERSION +'/forecast';
+const OPENWEATHER_LOCATION_ENDPOINT = '/geo/'+ LOCATION_VERSION +'/zip';
 const OPENWEATHER_DOMAIN = 'api.openweathermap.org';
 const OPENWEATHER_API_KEY_VALUE =process.env.REACT_APP_WEATHER_KEY;
 
@@ -22,16 +24,9 @@ export default class OpenWeather {
         openWeatherUrl.setDomain(OPENWEATHER_DOMAIN);
         openWeatherUrl.setEndpoint(OPENWEATHER_LOCATION_ENDPOINT);
         openWeatherUrl.setParams(params);
-
-        //ordered params orig
-        //setters
-        //send a string or object to the constructor
-        //make instace of MyUrl
-        //overloaded to string on Url
-        //let locationURL = MyURL.createURL(SCHEME, OPENWEATHER_DOMAIN, OPENWEATHER_LOCATION_ENDPOINT, params);
-        //const parseResult = MyURL.parseQueryStringFromURL(locationURL);
+  
         const response =  await fetch(openWeatherUrl.toString());
-        const data = await response.json();    
+        const data = await response.json(); 
         return  {name: data.name, lat: data.lat, lon: data.lon};
     }
 
@@ -43,10 +38,17 @@ export default class OpenWeather {
             units: units, 
             lat: lat, 
             lon: lng,
-            appid: OPENWEATHER_API_KEY_VALUE,
+            appid: OPENWEATHER_API_KEY_VALUE
         }
-        let weatherURL = MyURL.createURL(SCHEME, OPENWEATHER_DOMAIN,OPENWEATHER_FORECAST_ENDPOINT, params);
-        const response = await fetch(weatherURL);
+        
+        let openWeatherUrl = new MyURL();
+        openWeatherUrl.setScheme(SCHEME);
+        openWeatherUrl.setDomain(OPENWEATHER_DOMAIN);
+        openWeatherUrl.setEndpoint(OPENWEATHER_FORECAST_ENDPOINT);
+        openWeatherUrl.setParams(params);
+        let testURL = new MyURL();
+        testURL.createFromUrlString(openWeatherUrl.toString());
+        const response = await fetch(openWeatherUrl.toString());
         const data = await response.json();
         return parseForecast(data.list, data.city.timezone);
     }
