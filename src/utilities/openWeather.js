@@ -16,14 +16,21 @@ export default class OpenWeather {
             zip: zip+',US',
             appid: OPENWEATHER_API_KEY_VALUE
         };
+
+        let openWeatherUrl = new MyURL();
+        openWeatherUrl.setScheme(SCHEME);
+        openWeatherUrl.setDomain(OPENWEATHER_DOMAIN);
+        openWeatherUrl.setEndpoint(OPENWEATHER_LOCATION_ENDPOINT);
+        openWeatherUrl.setParams(params);
+
         //ordered params orig
         //setters
         //send a string or object to the constructor
         //make instace of MyUrl
         //overloaded to string on Url
-        let locationURL = MyURL.createURL(SCHEME, OPENWEATHER_DOMAIN, OPENWEATHER_LOCATION_ENDPOINT, params);
-        const parseResult = MyURL.parseQueryStringFromURL(locationURL);
-        const response =  await fetch(locationURL);
+        //let locationURL = MyURL.createURL(SCHEME, OPENWEATHER_DOMAIN, OPENWEATHER_LOCATION_ENDPOINT, params);
+        //const parseResult = MyURL.parseQueryStringFromURL(locationURL);
+        const response =  await fetch(openWeatherUrl.toString());
         const data = await response.json();    
         return  {name: data.name, lat: data.lat, lon: data.lon};
     }
