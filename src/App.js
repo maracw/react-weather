@@ -5,6 +5,7 @@ import CurrentDay from "./components/CurrentDay";
 import WeatherList from "./components/WeatherList";
 import Header from "./components/Header";
 import parseForecast from "./utilities/weatherParsing";
+import ErrorMessage from "./utilities/ErrorMessage";
 import './styles/AppStyles.css';
 
 function App () {
@@ -15,8 +16,9 @@ function App () {
     const [currentUnits, setCurrentUnits] = useState ('');
 
     const [hasError, setHasError] = useState(false);
-    const errorMsgDiv = document.getElementById("openWeather-error");
     
+    let forecastError = new ErrorMessage();
+    forecastError.setParentElementId("open-weather-error");
     let openWeather = new OpenWeather();
     
     useEffect(() => {
@@ -34,16 +36,22 @@ function App () {
             catch(error) {
                 if(currentZip!=null)
                 {
-                    setHasError(true);
-                    console.log(" App says : problem getting weather info!.")
-                    errorMsgDiv.classList.add("error-msg-red");
-                    const messageText = document.createTextNode("There was a problem getting the forecast.");
-                    errorMsgDiv.appendChild(messageText);
+                    console.log(" App says : problem getting weather info!.");
+                    forecastError.setMessageText("There was a problem getting the forecast.");
+                    forecastError.setClassName("error-msg-red");
+                    forecastError.createErrorMessage();
+                    setHasError(true); 
                 }
             };
         }
         fetchData();
-}, [ currentZip, currentUnits ]);
+}, [ currentZip ]);
+
+    //rerenders the app and children without fetching new data
+    //connected to the submit button on ZipForm
+    useEffect(()=>{
+        console.log("units have changed to : "+ currentUnits);
+    },[currentUnits]);
     
 
     //updates currentZip state which triggers the useEffect function

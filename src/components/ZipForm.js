@@ -1,18 +1,15 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import ErrorMessage from '../utilities/ErrorMessage';
 
 function ZipForm ({onSubmit}){
     const [zip, setZip] = useState('');
-    const errorMsgDiv = document.getElementById("openWeather-error");
     const [units, setUnits] = useState('imperial');
+    const [hasError, setHasError] = useState(false);
     
     //event handler that sends the zip code value back to App.js
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        if(errorMsgDiv!=null){
-            errorMsgDiv.innerHTML='';
-            errorMsgDiv.classList.remove("error-msg-red");
-        }
-
+        setHasError(false);
         const pattern5DigitZip = /^\d{5}$/;
 
         //if zip is valid call onSubmit
@@ -22,11 +19,19 @@ function ZipForm ({onSubmit}){
         }
         else
         {
-            errorMsgDiv.classList.add("error-msg-red");
-            const messageText = document.createTextNode("Please enter a 5 digit US zip code to continue.");
-            errorMsgDiv.appendChild(messageText);
+            setHasError(true); 
         }   
     };
+
+    useEffect(()=>{
+        if(hasError){
+            let zipError = new ErrorMessage();
+            zipError.setMessageText("Please enter a 5 digit US zip code to continue.");
+            zipError.setClassName("error-msg-red");
+            zipError.createErrorMessage();
+        }
+       
+    }, [hasError]);
 
     //event handler to update zipcode as it is typed
     const handleZipChange = (event) => {
@@ -36,9 +41,9 @@ function ZipForm ({onSubmit}){
 
     return (
         <div className="zip-form col-md-6">
+             <div id="zip-error"></div>
             <form id="zipForm" className="d-flex flex-row" onSubmit={handleFormSubmit} >
                 <div className="m-3">
- 
                     <div>
                         <label className="my-3">Enter a five digit Zipcode:</label>
                         <input 
@@ -60,6 +65,7 @@ function ZipForm ({onSubmit}){
                     <button type="submit" className="my-3 btn btn-success"> Get the forecast!</button>
                 </div>
             </form>
+            <div id="zip-form-error"></div>
         </div>
     );
 }

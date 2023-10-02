@@ -1,4 +1,4 @@
-const URL_QUERY_DELIMITER ='?';
+const URL_QUERY_DELIMITER ='x';
 const URL_AMPERSAND = '&';
 const URL_EQUALS_SIGN='=';
 const URL_PROTOCOL_DELIMITER = '://';
@@ -66,8 +66,7 @@ class Url {
         this.href=urlString;
 
         //split at ? to separate the query
-        let [notQueryString, queryString] = urlString.split(URL_QUERY_DELIMITER);
-
+        let [upToQuery, queryString] = urlString.split(URL_QUERY_DELIMITER);
 
         //turn queryString into params object
         if (queryString!==null){
@@ -75,12 +74,12 @@ class Url {
         }
         
         //split the first part of the url by :// to separate out the protocol
-        let [protocol, domainAndRest]=notQueryString.split(URL_PROTOCOL_DELIMITER);
+        let [protocol, domainAndRest]=upToQuery.split(URL_PROTOCOL_DELIMITER);
         this.protocol=protocol;
 
         //use substring to find the first '/' that separates the domain from the path
         this.domain=domainAndRest.substring(0, domainAndRest.indexOf(URL_PATH_DELIMITER));
-        this.pathname= domainAndRest.substring(this.domain.length);
+        this.pathname=domainAndRest.substring(this.domain.length);
         console.log(this);
     }
 
