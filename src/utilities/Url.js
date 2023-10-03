@@ -57,8 +57,9 @@ class Url {
         let queryStringAndDelimiter = this.params!==null? URL_QUERY_DELIMITER + this.buildQueryString(this.params) : "";
         return this.scheme + this.domain + this.endpoint + queryStringAndDelimiter;
     }
-    //in process
 
+    //parsing
+    
     createFromUrlString (urlString) {
         //return url object with the properties set (scheme, etc, params object is result of the parseAsWwwUrlformEncoded)   
         //this method adds new properties for the moment
@@ -70,7 +71,7 @@ class Url {
 
         //turn queryString into params object
         if (queryString!==null){
-            this.params = this.parseQueryString(queryString);
+            this.params = this.parseAsWwwUrlFormEncoded(queryString);
         }
         
         //split the first part of the url by :// to separate out the protocol
@@ -79,15 +80,11 @@ class Url {
 
         //use substring to find the first '/' that separates the domain from the path
         this.domain=domainAndRest.substring(0, domainAndRest.indexOf(URL_PATH_DELIMITER));
-        this.pathname=domainAndRest.substring(this.domain.length);
+        this.endpoint=domainAndRest.substring(this.domain.length);
         console.log(this);
     }
 
     parseAsWwwUrlFormEncoded (urlString) {
-
-
-    }
-    parseQueryString(queryString) {
 
         //what about un-encoding text?
 
