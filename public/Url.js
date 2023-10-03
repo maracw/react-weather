@@ -84,7 +84,7 @@ class Url {
 
     static parseAsWwwUrlFormEncoded (urlString) {
         //what about un-encoding text?
-        //decodeURI(encoded)
+
         let parts=urlString.split(URL_QUERY_DELIMITER);
         if (!parts.length==1){
             return;

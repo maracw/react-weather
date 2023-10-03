@@ -40,16 +40,17 @@ export default class OpenWeather {
             lon: lng,
             appid: OPENWEATHER_API_KEY_VALUE
         }
-        
+        //change these to more generic names
         let openWeatherUrl = new MyURL();
         openWeatherUrl.setScheme(SCHEME);
         openWeatherUrl.setDomain(OPENWEATHER_DOMAIN);
         openWeatherUrl.setEndpoint(OPENWEATHER_FORECAST_ENDPOINT);
         openWeatherUrl.setParams(params);
-        let testURL = new MyURL();
-        testURL.createFromUrlString(openWeatherUrl.toString());
+        //let testURL = new MyURL();
+        let testURL = MyURL.newFromString(openWeatherUrl.toString());
         const response = await fetch(openWeatherUrl.toString());
         const data = await response.json();
+        //
         return parseForecast(data.list, data.city.timezone);
     }
 }
