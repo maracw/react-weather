@@ -1,11 +1,11 @@
 import {useEffect, useState} from 'react';
-import ErrorMessage from '../utilities/ErrorMessage';
+import ErrorDisplay from './ErrorDisplay';
 
 function ZipForm ({onSubmit}){
     const [zip, setZip] = useState('');
     const [units, setUnits] = useState('imperial');
     const [hasError, setHasError] = useState(false);
-    
+    const [errorText, setErrorText] = useState("");
     //event handler that sends the zip code value back to App.js
     const handleFormSubmit = (event) => {
         event.preventDefault();
@@ -25,10 +25,7 @@ function ZipForm ({onSubmit}){
 
     useEffect(()=>{
         if(hasError){
-            let zipError = new ErrorMessage();
-            zipError.setMessageText("Please enter a 5 digit US zip code to continue.");
-            zipError.setClassName("error-msg-red");
-            zipError.createErrorMessage();
+            setErrorText("Please enter a valid 5 digit US zipcode.");
         }
        
     }, [hasError]);
@@ -38,10 +35,11 @@ function ZipForm ({onSubmit}){
         setZip(event.target.value);
     };
 
+    const errorContent = hasError? <ErrorDisplay message={errorText}/>: "";
 
     return (
         <div className="zip-form col-md-6">
-             <div id="zip-error"></div>
+             <div id="zip-error">{errorContent}</div>
             <form id="zipForm" className="d-flex flex-row" onSubmit={handleFormSubmit} >
                 <div className="m-3">
                     <div>

@@ -5,9 +5,8 @@ import CurrentDay from "./components/CurrentDay";
 import WeatherList from "./components/WeatherList";
 import Header from "./components/Header";
 import parseForecast from "./utilities/weatherParsing";
-import ErrorMessage from "./utilities/ErrorMessage";
-
 import './styles/AppStyles.css';
+import ErrorDisplay from "./components/ErrorDisplay";
 
 
 
@@ -16,15 +15,11 @@ function App () {
     const [forecast, setForecast] = useState([]);
     const [selectedDay, setSelectedDay] = useState(null);
     const [currentZip, setCurrentZip] = useState(null);
-    const [currentUnits, setCurrentUnits] = useState ('');
-
+    const [currentUnits, setCurrentUnits] = useState ('imperial');
     const [hasError, setHasError] = useState(false);
+    const [errorText, setErrorText] = useState("");
     
-    let forecastError = new ErrorMessage();
-    forecastError.setParentElementId("open-weather-error");
     let openWeather = new OpenWeather();
-    
-
     //connected to the submit button on ZipForm
     //when user changes zipcode app will fetch new lat and lon values
     //then app will fetch weather data
@@ -43,10 +38,7 @@ function App () {
             catch(error) {
                 if(currentZip!=null)
                 {
-                    console.log(" App says : problem getting weather info!.");
-                    forecastError.setMessageText("There was a problem getting the forecast.");
-                    forecastError.setClassName("error-msg-red");
-                    forecastError.createErrorMessage();
+                    setErrorText("There was a problem getting the forecast or location information at line 45.");
                     setHasError(true); 
                 }
             };
@@ -60,6 +52,9 @@ function App () {
     //app will fetch weather data from lat and lon in location state
     useEffect(()=>{
         async function fetchWeatherDataOnly() {
+            if(location.lat =='' || location.lon ==''){
+                return;
+            }
             try {
                 let forecast = await openWeather.getForecast(location.lat, location.lon, currentUnits);
                 setForecast(forecast);
@@ -67,20 +62,18 @@ function App () {
             catch(error) {
                 if(currentZip!=null)
                 {
-                    console.log(" App says : problem getting weather info!.");
-                    forecastError.setMessageText("There was a problem getting the forecast.");
-                    forecastError.setClassName("error-msg-red");
-                    forecastError.createErrorMessage();
+                    setErrorText("There was a problem getting the forecast.");
                     setHasError(true); 
                 }
             };
         }
         fetchWeatherDataOnly();
     },[currentUnits]);
-    
 
+    
     //updates currentZip and currentUnits state which may trigger the useEffect functions
     const handleSubmit = async (zip, units) => {
+        setHasError(false);
         setCurrentZip(zip);
         setCurrentUnits(units);
         setSelectedDay(null); 
@@ -91,7 +84,15 @@ function App () {
     }
     //conditional to build page contents
     let sectionContent = "";
-    if (selectedDay==null && forecast.length>0){
+    if (hasError){
+        sectionContent= <div>
+            <div id="openWeather-error"  className="error-msg">
+                <ErrorDisplay message={errorText}/>
+            </div>
+            <ZipForm onSubmit = {handleSubmit} />
+        </div>
+    }
+    else if (selectedDay==null && forecast.length>0){
        sectionContent = <div className="row d-flex flex-row align-items-start">
             <ZipForm onSubmit = {handleSubmit} />
             <div className='col-md-5'>
@@ -128,7 +129,6 @@ function App () {
     }
 
     return (<div className="row" id="weather-app">
-        <div id="openWeather-error"  className="error-msg"></div>
         <div><Header /></div>
         <section>{sectionContent}</section>
     </div>);
