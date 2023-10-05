@@ -3,6 +3,7 @@ const URL_AMPERSAND = '&';
 const URL_EQUALS_SIGN='=';
 const URL_PROTOCOL_DELIMITER = '://';
 const URL_PATH_DELIMITER = '/';
+const URL_EMPTY_STRING = "";
 
 class Url {
     scheme;
@@ -43,7 +44,7 @@ class Url {
 
     //overloaded toString
     toString () {
-        let queryStringAndDelimiter = this.params!==null? URL_QUERY_DELIMITER + this.buildQueryString(this.params) : "";
+        let queryStringAndDelimiter = this.params!==null? URL_QUERY_DELIMITER + this.buildQueryString(this.params) : URL_EMPTY_STRING;
         return this.scheme + this.domain + this.endpoint + queryStringAndDelimiter;
     }
 
@@ -83,8 +84,6 @@ class Url {
     }
 
     static parseAsWwwUrlFormEncoded (urlString) {
-        //what about un-encoding text?
-        //decodeURI(encoded)
         let parts=urlString.split(URL_QUERY_DELIMITER);
         if (!parts.length==1){
             return;
@@ -93,6 +92,11 @@ class Url {
         let kvp ={};
         for (let i=0; i<params.length; i++){
                 let[key, value] =params[i].split(URL_EQUALS_SIGN);
+                try {
+                   decodeURI(value);
+                  } catch (e) {
+                    console.error(e);
+                  }
                 kvp [key] = value;
         }
         return kvp;       

@@ -19,13 +19,13 @@ export default class OpenWeather {
             appid: OPENWEATHER_API_KEY_VALUE
         };
 
-        let openWeatherUrl = new MyURL();
-        openWeatherUrl.setScheme(SCHEME);
-        openWeatherUrl.setDomain(OPENWEATHER_DOMAIN);
-        openWeatherUrl.setEndpoint(OPENWEATHER_LOCATION_ENDPOINT);
-        openWeatherUrl.setParams(params);
+        let url = new MyURL();
+        url.setScheme(SCHEME);
+        url.setDomain(OPENWEATHER_DOMAIN);
+        url.setEndpoint(OPENWEATHER_LOCATION_ENDPOINT);
+        url.setParams(params);
   
-        const response =  await fetch(openWeatherUrl.toString());
+        const response =  await fetch(url.toString());
         const data = await response.json(); 
         return  {name: data.name, lat: data.lat, lon: data.lon};
     }
@@ -41,14 +41,16 @@ export default class OpenWeather {
             appid: OPENWEATHER_API_KEY_VALUE
         }
         //change these to more generic names
-        let openWeatherUrl = new MyURL();
-        openWeatherUrl.setScheme(SCHEME);
-        openWeatherUrl.setDomain(OPENWEATHER_DOMAIN);
-        openWeatherUrl.setEndpoint(OPENWEATHER_FORECAST_ENDPOINT);
-        openWeatherUrl.setParams(params);
+        let url = new MyURL();
+        url.setScheme(SCHEME);
+        url.setDomain(OPENWEATHER_DOMAIN);
+        url.setEndpoint(OPENWEATHER_FORECAST_ENDPOINT);
+        url.setParams(params);
         //let testURL = new MyURL();
-        let testURL = MyURL.newFromString(openWeatherUrl.toString());
-        const response = await fetch(openWeatherUrl.toString());
+        let testURL = MyURL.newFromString("https://developer.mozilla.org/en-US/docs/Web/API/Encoding_API" + "?nonsense=%E0%A4%A");
+        console.log("should log error");
+        console.log(testURL);
+        const response = await fetch(url.toString());
         const data = await response.json();
         //
         return parseForecast(data.list, data.city.timezone);
