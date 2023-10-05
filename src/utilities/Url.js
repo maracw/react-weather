@@ -6,14 +6,14 @@ const URL_PATH_DELIMITER = '/';
 const URL_EMPTY_STRING = "";
 
 class Url {
+    href;
+    protocol;
     scheme;
     domain;
     endpoint;
     params ={};
 
-    //private constructor () {}
     constructor() {
-       
     }
     //setters
     setScheme (value) {
@@ -42,16 +42,14 @@ class Url {
         return kvp.join(URL_AMPERSAND);
     }
 
-    //overloaded toString
+    //overloaded toString acts on an instance of Url
     toString () {
         let queryStringAndDelimiter = this.params!==null? URL_QUERY_DELIMITER + this.buildQueryString(this.params) : URL_EMPTY_STRING;
         return this.scheme + this.domain + this.endpoint + queryStringAndDelimiter;
     }
 
     //parsing
-
     static newFromString (urlString) {
-        //this method adds new properties for the moment
         //store the full url string 
         let href=urlString;
 
