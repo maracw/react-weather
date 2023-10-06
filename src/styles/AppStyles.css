@@ -41,6 +41,7 @@ header {
     flex-wrap: wrap;
     justify-content: space-between;
     border-radius: 20px;
+    width: 85%;
 }
 
 .weather-list-item {
@@ -52,7 +53,7 @@ header {
     background-color: #fff;
    
 }
-.current-day-container{
+.current-day-container, .weather-list-container{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

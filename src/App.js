@@ -18,7 +18,7 @@ function App () {
     const [currentUnits, setCurrentUnits] = useState ('imperial');
     const [hasError, setHasError] = useState(false);
     const [errorText, setErrorText] = useState("");
-    
+
     let openWeather = new OpenWeather();
     //connected to the submit button on ZipForm
     //when user changes zipcode app will fetch new lat and lon values
@@ -83,54 +83,50 @@ function App () {
         setSelectedDay(index);
     }
     //conditional to build page contents
-    let sectionContent = "";
+    let content = "";
     if (hasError){
-        sectionContent= <div>
+        content= <div>
             <div id="openWeather-error"  className="error-msg">
                 <ErrorDisplay message={errorText}/>
             </div>
-            <ZipForm onSubmit = {handleSubmit} />
         </div>
     }
     else if (selectedDay==null && forecast.length>0){
-       sectionContent = <div className="row d-flex flex-row align-items-start">
-            <ZipForm onSubmit = {handleSubmit} />
-            <div className='col-md-5'>
+       content = 
+       <div className="row d-flex flex-row align-items-start weather-list-container">
+           
                 <WeatherList onDayClick={handleDayClick} 
                     forecast={forecast} 
                     cityName={location.name}
                     currentUnits={currentUnits}/>     
-       </div>
        </div>;
     }
     else if (forecast.length>0){
-        sectionContent = <div>
-            <div className="row d-flex flex-row align-items-start">
-                <ZipForm  onSubmit = {handleSubmit} />
+        content = <div>
+            <div className="d-flex flex-row align-items-start">
                 <CurrentDay location={location} 
                     forecast={forecast} 
                     selectedDay={selectedDay} 
                     currentUnits={currentUnits} />
             </div>
-            <div className="row d-flex justify-content-around">
-                <div className='col-md-10'>
-                    <WeatherList onDayClick={handleDayClick} 
-                        forecast={forecast} 
-                        cityName={location.name}
-                        currentUnits={currentUnits}/>     
-                </div>
+            <div className="d-flex flex-row justify-content-center weather-list-container">
+                <WeatherList onDayClick={handleDayClick} 
+                    forecast={forecast} 
+                    cityName={location.name}
+                    currentUnits={currentUnits}/>     
             </div>
         </div>;  
     }
     else {
-        sectionContent =<div className="row">
-        <ZipForm onSubmit = {handleSubmit} />
-    </div>;
+        content =<div className="row"></div>;
     }
 
     return (<div className="row" id="weather-app">
         <div><Header /></div>
-        <section>{sectionContent}</section>
+        <div className="row d-flex align-items-start">
+            <ZipForm  onSubmit = {handleSubmit} className="col"/>
+            <div className="col">{content}</div>
+        </div>
     </div>);
 }
 

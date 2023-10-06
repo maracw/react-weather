@@ -21,7 +21,7 @@ function CurrentDay ({location, forecast, selectedDay, currentUnits}) {
 
     if (selectedDay!=null){
         return (
-        <div className="current-day-container mb-5 col-md-5">
+        <div className="current-day-container mb-5 col">
             <div className="current-day">
                 <header>
                     <h2 className='h2'> {getWeekday(day.dt)} in {location.name}</h2>
