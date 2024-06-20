@@ -25,7 +25,7 @@ function findMaxTemp(forecast, indexOfMidnight) {
   }
 
   //add error handling
-export default function parseForecast(forecast, timezoneOffset) {
+export default function parseForecastVer2_5(forecast, timezoneOffset) {
     let simpleForecast = new Array();
     const MIDNIGHT = getIndexOfMidnight(forecast[0].dt, timezoneOffset);
     const NOON = 4;
